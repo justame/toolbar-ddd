@@ -13,14 +13,10 @@ export interface ButtonsAggregator<T> {
 }
 
 export interface IEditorContent {}
-export interface IRicosContent extends IEditorContent {
-  type: string;
-  nodes: [];
-}
+export interface IRicosContent extends IEditorContent {}
 
 export interface IDraftContent extends IEditorContent {
-  blocks: []]
-
+  blocks: [];
 }
 
 export interface IToolbarButtonConfig<T> {

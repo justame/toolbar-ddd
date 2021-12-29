@@ -4,6 +4,7 @@ import Hello from './Hello';
 import './style.css';
 import Toolbar from './Toolbar';
 import content from './content.json';
+import { Tiptap } from './TiptapEditor';
 import {
   IToolbarButtonConfig,
   IVisibiltyRule,
@@ -16,6 +17,7 @@ interface AppProps {}
 interface AppState {
   name: string;
   selectedNodeIndex: number;
+  selectedContent: any;
 }
 
 const buttons: IToolbarButtonConfig<IRicosContent>[] = [
@@ -23,8 +25,11 @@ const buttons: IToolbarButtonConfig<IRicosContent>[] = [
     button: { label: 'bold' },
     visiblityRules: [
       {
-        test: (content) => {
-          return content.type === 'PARAGRAPH';
+        test: (content: any) => {
+          if (Array.isArray(content)) {
+            return content.map((c) => c?.textContent).indexOf('bold') !== -1;
+          }
+          return false;
         },
       },
     ],
@@ -35,14 +40,22 @@ const buttons: IToolbarButtonConfig<IRicosContent>[] = [
     visiblityRules: [
       {
         test: (content) => {
-          return content.type === 'PARAGRAPH';
+          if (Array.isArray(content)) {
+            return content.map((c) => c?.textContent).indexOf('italic') !== -1;
+          }
+          return false;
         },
       },
     ],
     disabledRules: [
       {
         test: (content) => {
-          return content.type === 'PARAGRAPH';
+          if (Array.isArray(content)) {
+            return (
+              content.map((c) => c?.textContent).indexOf('disabled') !== -1
+            );
+          }
+          return false;
         },
       },
     ],
@@ -55,15 +68,20 @@ class App extends Component<AppProps, AppState> {
     this.state = {
       name: 'React',
       selectedNodeIndex: 1,
+      selectedContent: null,
     };
   }
 
   renderNodeContent() {
-    return JSON.stringify(content.nodes[this.state.selectedNodeIndex]);
+    return JSON.stringify(this.state.selectedContent);
   }
 
+  setSelection = (nodes) => {
+    this.setState({ selectedContent: nodes });
+  };
+
   render() {
-    const selectedContent = content.nodes[this.state.selectedNodeIndex];
+    const selectedContent = this.state.selectedContent || {};
     return (
       <div>
         <Toolbar buttons={buttons} content={selectedContent} />
@@ -78,7 +96,14 @@ class App extends Component<AppProps, AppState> {
             next node
           </button>
         </div>
-        <div>{this.renderNodeContent()}</div>
+        <div style={{ height: 100, overflow: 'auto' }}>
+          {this.renderNodeContent()}
+        </div>
+        <Tiptap
+          onSelectionChange={(nodes) => {
+            this.setSelection(nodes);
+          }}
+        />
       </div>
     );
   }
