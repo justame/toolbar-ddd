@@ -6,13 +6,12 @@ import {
   IToolbarButtonConfig,
   IToolbarButton,
   IRicosContent,
-  IEditorContent
+  IEditorContent,
 } from './types';
-
 
 class ToolbarButton {
   static create(
-    toolbarButton: IToolbarButtonConfig<IEditorContent>;
+    toolbarButton: IToolbarButtonConfig<IEditorContent>,
     content
   ): IToolbarButton {
     return {
@@ -39,7 +38,9 @@ class ToolbarButton {
 }
 
 class Buttons implements ButtonsAggregator<IEditorContent> {
-  constructor(private toolbarButtonsConfigs: IToolbarButtonConfig<IEditorContent>[]) {}
+  constructor(
+    private toolbarButtonsConfigs: IToolbarButtonConfig<IEditorContent>[]
+  ) {}
 
   getRelevantButtons(content) {
     const buttons = this.toolbarButtonsConfigs.map((config) => {
@@ -55,7 +56,6 @@ type ToolbarProps = {
   content: any;
   buttons: any;
 };
-
 
 class Toolbar extends Component<ToolbarProps, null> {
   buttons: ButtonsAggregator<IEditorContent>;
