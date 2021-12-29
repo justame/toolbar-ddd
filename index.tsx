@@ -4,6 +4,13 @@ import Hello from './Hello';
 import './style.css';
 import Toolbar from './Toolbar';
 import content from './content.json';
+import {
+  IToolbarButtonConfig,
+  IVisibiltyRule,
+  IDisabledRule,
+  IRicosContent,
+  IDraftContent,
+} from './types';
 
 interface AppProps {}
 interface AppState {
@@ -11,17 +18,8 @@ interface AppState {
   selectedNodeIndex: number;
 }
 
-class ToolbarButton implements IToolbarButtonConfig {
-  id: string;
-  button: Button;
-  visiblityRules: VisibiltyRule[];
-  disabledRules: DisabledRule[];
-  constructor(id, button, visiblityRules) {}
-}
-
-const buttons: ToolbarButton[] = [
+const buttons: IToolbarButtonConfig<IRicosContent>[] = [
   {
-    id: 'bold',
     button: { label: 'bold' },
     visiblityRules: [
       {
@@ -33,7 +31,6 @@ const buttons: ToolbarButton[] = [
     disabledRules: [],
   },
   {
-    id: 'italic',
     button: { label: 'italic' },
     visiblityRules: [
       {

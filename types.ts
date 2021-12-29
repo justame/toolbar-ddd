@@ -1,21 +1,32 @@
 export class ToolbarButtonsVisibiltyManager {}
 
-export type VisibiltyRule = {
-  test: (content: any) => boolean;
-};
-
-export type DisabledRule = {
-  test: (content: any) => boolean;
-};
-
-export interface ButtonsAggregator {
-  getRelevantButtons: (content) => IToolbarButton[];
+export interface IVisibiltyRule<T> {
+  test: (content: T) => boolean;
 }
 
-export interface IToolbarButtonConfig {
+export type IDisabledRule<T> = {
+  test: (content: any) => boolean;
+};
+
+export interface ButtonsAggregator<T> {
+  getRelevantButtons: (content: T) => IToolbarButton[];
+}
+
+export interface IEditorContent {}
+export interface IRicosContent extends IEditorContent {
+  type: string;
+  nodes: [];
+}
+
+export interface IDraftContent extends IEditorContent {
+  blocks: []]
+
+}
+
+export interface IToolbarButtonConfig<T> {
   button: IButton;
-  visiblityRules: VisibiltyRule[];
-  disabledRules: DisabledRule[];
+  visiblityRules: IVisibiltyRule<T>[];
+  disabledRules: IDisabledRule<T>[];
 }
 
 export interface IButtonState {

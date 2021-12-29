@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import ToolbarButtonComponent from './ToolbarButton';
 import {
   ButtonsAggregator,
-  VisibiltyRule,
+  IVisibiltyRule,
   IToolbarButtonConfig,
   IToolbarButton,
+  IRicosContent,
+  IEditorContent
 } from './types';
 
+
 class ToolbarButton {
-  static create(toolbarButton: IToolbarButtonConfig, content): IToolbarButton {
+  static create(
+    toolbarButton: IToolbarButtonConfig<IEditorContent>;
+    content
+  ): IToolbarButton {
     return {
       label: toolbarButton.button.label,
       icon: toolbarButton.button.icon,
@@ -32,8 +38,8 @@ class ToolbarButton {
   }
 }
 
-class Buttons implements ButtonsAggregator {
-  constructor(private toolbarButtonsConfigs: IToolbarButtonConfig[]) {}
+class Buttons implements ButtonsAggregator<IEditorContent> {
+  constructor(private toolbarButtonsConfigs: IToolbarButtonConfig<IEditorContent>[]) {}
 
   getRelevantButtons(content) {
     const buttons = this.toolbarButtonsConfigs.map((config) => {
@@ -50,8 +56,9 @@ type ToolbarProps = {
   buttons: any;
 };
 
+
 class Toolbar extends Component<ToolbarProps, null> {
-  buttons: ButtonsAggregator;
+  buttons: ButtonsAggregator<IEditorContent>;
 
   constructor(props) {
     super(props);
