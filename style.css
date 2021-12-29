@@ -13,3 +13,7 @@ p {
   border: solid 1px red;
   display: flex;
 }
+
+.editor {
+  border: solid 1px green;
+}

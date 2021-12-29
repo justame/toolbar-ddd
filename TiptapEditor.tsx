@@ -16,11 +16,16 @@ export const Tiptap = ({ onSelectionChange }) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: '<p>Hello World!</p>',
+    injectCSS: true,
     onSelectionUpdate: ({ editor }) => {
       const nodes = getSelectedNodes(editor);
       onSelectionChange(nodes);
     },
   });
 
-  return <EditorContent editor={editor} on />;
+  return (
+    <div className="editor">
+      <EditorContent editor={editor} />
+    </div>
+  );
 };

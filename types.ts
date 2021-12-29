@@ -33,6 +33,7 @@ export interface IButtonState {
 export interface IButton {
   label: string;
   icon?: string;
+  onClick: (label) => void;
 }
 
 export type IToolbarButton = IButton & IButtonState;

@@ -17,6 +17,7 @@ class ToolbarButton {
     return {
       label: toolbarButton.button.label,
       icon: toolbarButton.button.icon,
+      onClick: toolbarButton.button.onClick,
       get disabled() {
         return (
           toolbarButton.disabledRules.length > 0 &&
@@ -36,6 +37,14 @@ class ToolbarButton {
     };
   }
 }
+
+// class ModalToolbarButton {
+//   static create(toolbarButton: IToolbarButtonConfig<IEditorContent>, content) {
+//     return {
+//       ...ToolbarButton.create(toolbarButton, content),
+//     };
+//   }
+// }
 
 class Buttons implements ButtonsAggregator<IEditorContent> {
   constructor(

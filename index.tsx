@@ -22,7 +22,12 @@ interface AppState {
 
 const buttons: IToolbarButtonConfig<IRicosContent>[] = [
   {
-    button: { label: 'bold' },
+    button: {
+      label: 'bold',
+      onClick: (label) => {
+        console.log(`button ${label} was clicked`);
+      },
+    },
     visiblityRules: [
       {
         test: (content: any) => {
@@ -36,7 +41,14 @@ const buttons: IToolbarButtonConfig<IRicosContent>[] = [
     disabledRules: [],
   },
   {
-    button: { label: 'italic' },
+    button: {
+      label: 'italic',
+      onClick: (label) => {
+        console.log(`button ${label} was clicked`);
+        // fire BI Event
+        // BiServie.fireEvent(label)
+      },
+    },
     visiblityRules: [
       {
         test: (content) => {
