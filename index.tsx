@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import Toolbar from './Toolbar';
-import content from './content.json';
+// import content from './content.json';
 import { Tiptap } from './TiptapEditor';
 import {
   IToolbarButtonConfig,
@@ -11,7 +11,12 @@ import {
   IDisabledRule,
   IRicosContent,
   IDraftContent,
+  IToggleButtonConfig,
+  IToggleButton,
+  IToggleButtonCreator,
 } from './types';
+
+import { ToggleButton } from './ToggleButton';
 
 interface AppProps {}
 interface AppState {
@@ -20,8 +25,8 @@ interface AppState {
   selectedContent: any;
 }
 
-const buttons: IToolbarButtonConfig<IRicosContent>[] = [
-  {
+const buttons: IToggleButtonCreator[] = [
+  ToggleButton.create({
     button: {
       label: 'bold',
       onClick: (label) => {
@@ -39,19 +44,18 @@ const buttons: IToolbarButtonConfig<IRicosContent>[] = [
       },
     ],
     disabledRules: [],
-  },
-  {
+    activeRules: [],
+  }),
+  ToggleButton.create({
     button: {
       label: 'italic',
       onClick: (label) => {
         console.log(`button ${label} was clicked`);
-        // fire BI Event
-        // BiServie.fireEvent(label)
       },
     },
     visiblityRules: [
       {
-        test: (content) => {
+        test: (content: any) => {
           if (Array.isArray(content)) {
             return content.map((c) => c?.textContent).indexOf('italic') !== -1;
           }
@@ -59,19 +63,9 @@ const buttons: IToolbarButtonConfig<IRicosContent>[] = [
         },
       },
     ],
-    disabledRules: [
-      {
-        test: (content) => {
-          if (Array.isArray(content)) {
-            return (
-              content.map((c) => c?.textContent).indexOf('disabled') !== -1
-            );
-          }
-          return false;
-        },
-      },
-    ],
-  },
+    disabledRules: [],
+    activeRules: [],
+  }),
 ];
 
 class App extends Component<AppProps, AppState> {
