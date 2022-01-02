@@ -53,3 +53,19 @@ export interface IToggleButton extends IToolbarButtonBase {
   readonly type: string;
   readonly active: boolean;
 }
+
+export interface ISpec {
+  name: string;
+}
+export interface IContentSpec extends ISpec {
+  test: (content) => boolean;
+}
+
+export interface IEditorSpec extends ISpec {
+  test: (editor) => boolean;
+}
+
+export interface ButtonBehaviour {
+  name: string;
+  features: ISpec[];
+}

@@ -14,59 +14,75 @@ import {
   IToggleButtonConfig,
   IToggleButton,
   IToggleButtonCreator,
+  ButtonBehaviour,
+  ISpec,
+  IContentSpec,
 } from './types';
+import { Content } from './Content';
 
 import { ToggleButton } from './ToggleButton';
-
+import { containsText } from './features';
 interface AppProps {}
 interface AppState {
   name: string;
   selectedNodeIndex: number;
   selectedContent: any;
+  specs: IContentSpec[];
 }
 
-const buttons: IToggleButtonCreator[] = [
-  ToggleButton.create({
-    button: {
-      label: 'bold',
-      onClick: (label) => {
-        console.log(`button ${label} was clicked`);
-      },
-    },
-    visiblityRules: [
-      {
-        test: (content: any) => {
-          if (Array.isArray(content)) {
-            return content.map((c) => c?.textContent).indexOf('bold') !== -1;
-          }
-          return false;
-        },
-      },
-    ],
-    disabledRules: [],
-    activeRules: [],
-  }),
-  ToggleButton.create({
-    button: {
-      label: 'italic',
-      onClick: (label) => {
-        console.log(`button ${label} was clicked`);
-      },
-    },
-    visiblityRules: [
-      {
-        test: (content: any) => {
-          if (Array.isArray(content)) {
-            return content.map((c) => c?.textContent).indexOf('italic') !== -1;
-          }
-          return false;
-        },
-      },
-    ],
-    disabledRules: [],
-    activeRules: [],
-  }),
-];
+// const buttons: IToggleButtonCreator[] = [
+//   ToggleButton.create({
+//     button: {
+//       label: 'bold',
+//       onClick: (label) => {
+//         console.log(`button ${label} was clicked`);
+//       },
+//     },
+//     visiblityRules: [
+//       {
+//         test: (content: any) => {
+//           if (Array.isArray(content)) {
+//             return content.map((c) => c?.textContent).indexOf('bold') !== -1;
+//           }
+//           return false;
+//         },
+//       },
+//     ],
+//     disabledRules: [],
+//     activeRules: [],
+//   }),
+//   ToggleButton.create({
+//     button: {
+//       label: 'italic',
+//       onClick: (label) => {
+//         console.log(`button ${label} was clicked`);
+//       },
+//     },
+//     visiblityRules: [
+//       {
+//         test: (content: any) => {
+//           if (Array.isArray(content)) {
+//             return content.map((c) => c?.textContent).indexOf('italic') !== -1;
+//           }
+//           return false;
+//         },
+//       },
+//     ],
+//     disabledRules: [],
+//     activeRules: [],
+//   }),
+// ];
+
+
+const boldButton = new ToggleButton(
+  'bold',
+  {
+    tooltip: 'bold',
+  },
+  [visible]
+);
+
+const buttons = [boldButton];
 
 class App extends Component<AppProps, AppState> {
   constructor(props) {
@@ -75,6 +91,7 @@ class App extends Component<AppProps, AppState> {
       name: 'React',
       selectedNodeIndex: 1,
       selectedContent: null,
+      specs: [],
     };
   }
 
@@ -83,14 +100,16 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    this.setState({ selectedContent: nodes });
+    const specs = new Content(nodes, [containtsTheWordYaron]).getValidSpecs();
+    this.setState({ selectedContent: nodes, specs });
   };
 
   render() {
     const selectedContent = this.state.selectedContent || {};
+
     return (
       <div>
-        <Toolbar buttons={buttons} content={selectedContent} />
+        <Toolbar buttons={buttons} specs={this.state.specs} />
         <div>
           <button
             onClick={() =>
