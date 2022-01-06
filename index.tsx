@@ -104,7 +104,7 @@ class App extends Component<AppProps, AppState> {
 
   setSelection = (nodes) => {
     // const specs = new Content(nodes, [containtsTheWordYaron]).getValidSpecs();
-    // this.setState({ selectedContent: nodes, specs });
+    this.setState({ selectedContent: nodes });
   };
 
   render() {
@@ -117,12 +117,8 @@ class App extends Component<AppProps, AppState> {
       toolbarItemsAndUpdators.map((item) => item.toolbarButton)
     );
 
-    // on content change
-    const content = {
-      nodes: [{ color: 'blue' }],
-    };
     toolbarItemsAndUpdators.forEach(({ updateAttributesByContent }) => {
-      updateAttributesByContent(content);
+      updateAttributesByContent(this.state.selectedContent);
     });
 
     console.log({ toolbar, toolbarItemsAndUpdators });

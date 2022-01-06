@@ -19,7 +19,10 @@ export const configs: ToolbarItemConfig[] = [
       visible: {
         id: 'containsText',
         resolver: (content) => {
-          return !!content.nodes[0];
+          return (
+            Array.isArray(content) &&
+            content.map((c) => c?.textContent).indexOf('bold') !== -1
+          );
         },
         description: 'contains text',
         defaultValue: false,
@@ -32,8 +35,8 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       color: {
         id: 'color',
-        resolver: (content) => {
-          return content.nodes[0].color;
+        resolver: (content = []) => {
+          return Array.isArray(content) && content.map((c) => c?.textContent);
         },
         description: 'text color',
         defaultValue: 'blue',
@@ -71,6 +74,11 @@ export const configToToolbarItem = (config: ToolbarItemConfig) => {
     toolbarButton,
     updateAttributesByContent: (content) => {
       for (const attribute in config.attributes) {
+        console.log(
+          'updateAttributesByContent',
+          attribute,
+          config.attributes[attribute].resolver(content)
+        );
         toolbarButton.setAttribute(
           attribute,
           config.attributes[attribute].resolver(content)
