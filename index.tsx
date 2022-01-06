@@ -19,7 +19,11 @@ import {
   IContentSpec,
 } from './types';
 import { Content } from './Content';
-import { configToToolbarItem, configs } from './buttonsConfigs';
+import {
+  configToToolbarItem,
+  configs,
+  Toolbar as ToolbarManager,
+} from './buttonsConfigs';
 import { ToggleButton } from './ToggleButton';
 import { containsText } from './features';
 interface AppProps {}
@@ -105,8 +109,23 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     const selectedContent = this.state.selectedContent || {};
-    console.log(configToToolbarItem(configs));
-    console.log();
+    const toolbarItemsAndUpdators = configs.map((config) => {
+      return configToToolbarItem(config);
+    });
+
+    const toolbar = ToolbarManager.create(
+      toolbarItemsAndUpdators.map((item) => item.toolbarButton)
+    );
+
+    // on content change
+    toolbarItemsAndUpdators.forEach(({ updateAttributes }) => {
+      updateAttributes({
+        nodes: [{ color: 'blue' }],
+      });
+    });
+
+    console.log({ toolbar });
+
     return (
       <div>
         {/* <Toolbar buttons={buttons} specs={this.state.specs} /> */}

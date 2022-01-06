@@ -1,6 +1,6 @@
 interface ContentResolver<T> {
   id: string;
-  resolver: (content) => any;
+  resolver: (content) => T;
   description: string;
   defaultValue: T;
 }
@@ -8,10 +8,10 @@ interface ContentResolver<T> {
 interface ToolbarItemConfig {
   id: string;
   type: string;
-  attributes: Map<string, ContentResolver<any>>;
+  attributes: Record<string, ContentResolver<number | string | boolean>>;
 }
 
-export const configs = [
+export const configs: ToolbarItemConfig[] = [
   {
     id: 'bold',
     type: 'toggle',
@@ -42,25 +42,59 @@ export const configs = [
   },
 ];
 
-class ToolbarButton {
-  private constructor(private id, private attributes) {}
+interface IToolbarItem {
+  attributes: ToolbarItemConfig['attributes'];
+  setAttribute: (key, value) => void;
+}
 
+export class ToolbarItem implements IToolbarItem {
+  private constructor(private id, readonly attributes) {}
+
+  setAttribute(key, value) {
+    this.attributes[key] = value;
+  }
   static create(id, attributes) {
-    return new ToolbarButton(id, attributes);
+    return new ToolbarItem(id, attributes);
   }
 }
 
-export const configToToolbarItem = (config) => {
+export const configToToolbarItem = (config: ToolbarItemConfig) => {
   const attribues = Object.keys(config.attributes).reduce(
     (acc, attributeName) => {
-      acc[attributeName] = attribues[attributeName].defaultValue;
+      acc[attributeName] = config.attributes[attributeName].defaultValue;
       return acc;
     },
     {}
   );
-  const toolbarButton = ToolbarButton.create(config.id, attribues);
-  return toolbarButton;
+  const toolbarButton = ToolbarItem.create(config.id, attribues);
+  return {
+    toolbarButton,
+    updateAttributes: (content) => {
+      for (const attribute in config.attributes) {
+        toolbarButton.setAttribute(
+          attribute,
+          config.attributes[attribute].resolver(content)
+        );
+      }
+    },
+  };
 };
+
+export class Toolbar {
+  private constructor(readonly toolbarItems: IToolbarItem[]) {
+    // read about private constructor
+  }
+
+  static create(toolbarItems: IToolbarItem[]) {
+    return new Toolbar(toolbarItems);
+  }
+
+  getItemsAttributes() {
+    return this.toolbarItems.map((toolbarItem) => {
+      return Object.keys(toolbarItem.attributes);
+    });
+  }
+}
 
 // type ContentSelector = (content) => any;
 
