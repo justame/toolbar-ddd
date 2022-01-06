@@ -19,7 +19,7 @@ import {
   IContentSpec,
 } from './types';
 import { Content } from './Content';
-
+import { configToToolbarItem, configs } from './buttonsConfigs';
 import { ToggleButton } from './ToggleButton';
 import { containsText } from './features';
 interface AppProps {}
@@ -73,16 +73,15 @@ interface AppState {
 //   }),
 // ];
 
+// const boldButton = new ToggleButton(
+//   'bold',
+//   {
+//     tooltip: 'bold',
+//   },
+//   [visible]
+// );
 
-const boldButton = new ToggleButton(
-  'bold',
-  {
-    tooltip: 'bold',
-  },
-  [visible]
-);
-
-const buttons = [boldButton];
+const buttons = [];
 
 class App extends Component<AppProps, AppState> {
   constructor(props) {
@@ -100,16 +99,17 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    const specs = new Content(nodes, [containtsTheWordYaron]).getValidSpecs();
-    this.setState({ selectedContent: nodes, specs });
+    // const specs = new Content(nodes, [containtsTheWordYaron]).getValidSpecs();
+    // this.setState({ selectedContent: nodes, specs });
   };
 
   render() {
     const selectedContent = this.state.selectedContent || {};
-
+    console.log(configToToolbarItem(configs));
+    console.log();
     return (
       <div>
-        <Toolbar buttons={buttons} specs={this.state.specs} />
+        {/* <Toolbar buttons={buttons} specs={this.state.specs} /> */}
         <div>
           <button
             onClick={() =>
