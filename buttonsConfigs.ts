@@ -69,7 +69,7 @@ export const configToToolbarItem = (config: ToolbarItemConfig) => {
   const toolbarButton = ToolbarItem.create(config.id, attribues);
   return {
     toolbarButton,
-    updateAttributes: (content) => {
+    updateAttributesByContent: (content) => {
       for (const attribute in config.attributes) {
         toolbarButton.setAttribute(
           attribute,

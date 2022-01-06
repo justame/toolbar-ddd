@@ -118,13 +118,14 @@ class App extends Component<AppProps, AppState> {
     );
 
     // on content change
-    toolbarItemsAndUpdators.forEach(({ updateAttributes }) => {
-      updateAttributes({
-        nodes: [{ color: 'blue' }],
-      });
+    const content = {
+      nodes: [{ color: 'blue' }],
+    };
+    toolbarItemsAndUpdators.forEach(({ updateAttributesByContent }) => {
+      updateAttributesByContent(content);
     });
 
-    console.log({ toolbar });
+    console.log({ toolbar, toolbarItemsAndUpdators });
 
     return (
       <div>
