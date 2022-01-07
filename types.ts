@@ -72,9 +72,9 @@ export interface ButtonBehaviour {
 
 export interface ContentResolver<T> {
   id: string;
-  resolve: (content) => T;
+  resolve: (content: T) => any;
   description: string;
-  defaultValue: T;
+  defaultValue: any;
 }
 
 export interface ToolbarItemConfig {

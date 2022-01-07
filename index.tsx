@@ -22,7 +22,6 @@ import {
 import { Content } from './Content';
 import {
   createToolbarItemByConfig,
-  getAttributesIdsByConfig,
   configs,
   Toolbar as ToolbarManager,
 } from './buttonsConfigs';
@@ -58,8 +57,14 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    // const specs = new Content(nodes, [containtsTheWordYaron]).getValidSpecs();
     this.setState({ selectedContent: nodes });
+    this.state.toolbarItems.forEach((toolbarItem) => {
+      const attributes = this.state.toolbarItemIdAttributesMap[toolbarItem.id];
+      Object.keys(attributes).forEach((attributeName) => {
+        const resolvedValue = attributes[attributeName].resolve(nodes);
+        toolbarItem.setAttribute(attributeName, resolvedValue);
+      });
+    });
   };
 
   componentDidMount() {
@@ -67,19 +72,17 @@ class App extends Component<AppProps, AppState> {
     const toolbarItems = [];
     configs.forEach((config) => {
       const toolbarItem = createToolbarItemByConfig(config);
-      const attributesIds = getAttributesIdsByConfig(config);
-      toolbarItemIdAttributesMap[toolbarItem.id] = attributesIds;
+      const attributes = config.attributes;
+      toolbarItemIdAttributesMap[toolbarItem.id] = attributes;
       toolbarItems.push(toolbarItem);
     });
     this.setState({ toolbarItemIdAttributesMap, toolbarItems });
   }
 
   render() {
-    const selectedContent = this.state.selectedContent || {};
-
     return (
       <div>
-        <Toolbar buttons={currentToolbarItems} />
+        <Toolbar buttons={this.state.toolbarItems} />
         <div>
           <button
             onClick={() =>

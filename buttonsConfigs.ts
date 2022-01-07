@@ -1,4 +1,4 @@
-import { ToolbarItemConfig } from './types';
+import { ToolbarItemConfig, IToolbarItem, ContentResolver } from './types';
 export const configs: ToolbarItemConfig[] = [
   {
     id: 'bold',
@@ -23,7 +23,7 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       color: {
         id: 'color',
-        resolve: (content = []) => {
+        resolve: (content) => {
           return 'blue';
         },
         description: 'text color',
@@ -58,12 +58,11 @@ export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
   return toolbarItem;
 };
 
-export const getAttributesIdsByConfig = (config) => {
-  const attributesIds = Object.keys(config.attributes).map((attribues) => {
-    return config.attributes[attribues].id;
-  });
-
-  return attributesIds;
+export const resolveAttributes = (
+  contentResolver: ContentResolver<any>,
+  content
+) => {
+  return contentResolver.resolve(content);
 };
 
 export class Toolbar {
@@ -81,18 +80,6 @@ export class Toolbar {
     });
   }
 }
-
-// type ContentSelector = (content) => any;
-
-// interface ContentAttributeResolver {
-//   resolve: ContentSelector;
-//   name
-// }
-
-// {
-//   name: 'visible',
-//   resolver( content )= > content.nodes[0].type === 'P'
-// }
 
 // const attribute = {
 //   name: 'color',
