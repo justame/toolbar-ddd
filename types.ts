@@ -13,7 +13,7 @@ export type IActiveRule<T> = {
 };
 
 export interface ButtonsAggregator<T> {
-  getRelevantButtons: (content: T) => IToolbarButton[];
+  getVisibleItems: () => IToolbarButton[];
 }
 
 export interface IEditorContent {}
@@ -68,4 +68,24 @@ export interface IEditorSpec extends ISpec {
 export interface ButtonBehaviour {
   name: string;
   features: ISpec[];
+}
+
+export interface ContentResolver<T> {
+  id: string;
+  resolve: (content) => T;
+  description: string;
+  defaultValue: T;
+}
+
+export interface ToolbarItemConfig {
+  id: string;
+  type: string;
+  attributes: Record<string, ContentResolver<number | string | boolean>>;
+}
+
+export interface IToolbarItem {
+  id: string;
+  attributes: ToolbarItemConfig['attributes'];
+  setAttribute: (key, value) => void;
+  getAttribute: (key) => any;
 }

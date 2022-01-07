@@ -1,16 +1,4 @@
-interface ContentResolver<T> {
-  id: string;
-  resolver: (content) => T;
-  description: string;
-  defaultValue: T;
-}
-
-interface ToolbarItemConfig {
-  id: string;
-  type: string;
-  attributes: Record<string, ContentResolver<number | string | boolean>>;
-}
-
+import { ToolbarItemConfig } from './types';
 export const configs: ToolbarItemConfig[] = [
   {
     id: 'bold',
@@ -18,7 +6,7 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       visible: {
         id: 'containsText',
-        resolver: (content) => {
+        resolve: (content) => {
           return (
             Array.isArray(content) &&
             content.map((c) => c?.textContent).indexOf('bold') !== -1
@@ -35,8 +23,8 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       color: {
         id: 'color',
-        resolver: (content = []) => {
-          return Array.isArray(content) && content.map((c) => c?.textContent);
+        resolve: (content = []) => {
+          return 'blue';
         },
         description: 'text color',
         defaultValue: 'blue',
@@ -45,47 +33,37 @@ export const configs: ToolbarItemConfig[] = [
   },
 ];
 
-interface IToolbarItem {
-  attributes: ToolbarItemConfig['attributes'];
-  setAttribute: (key, value) => void;
-}
-
 export class ToolbarItem implements IToolbarItem {
-  private constructor(private id, readonly attributes) {}
+  attributes = {};
+  private constructor(readonly id) {}
 
   setAttribute(key, value) {
     this.attributes[key] = value;
   }
-  static create(id, attributes) {
-    return new ToolbarItem(id, attributes);
+  getAttribute(key) {
+    return this.attributes[key];
+  }
+  static create(id) {
+    return new ToolbarItem(id);
   }
 }
 
-export const configToToolbarItem = (config: ToolbarItemConfig) => {
-  const attribues = Object.keys(config.attributes).reduce(
-    (acc, attributeName) => {
-      acc[attributeName] = config.attributes[attributeName].defaultValue;
-      return acc;
-    },
-    {}
-  );
-  const toolbarButton = ToolbarItem.create(config.id, attribues);
-  return {
-    toolbarButton,
-    updateAttributesByContent: (content) => {
-      for (const attribute in config.attributes) {
-        console.log(
-          'updateAttributesByContent',
-          attribute,
-          config.attributes[attribute].resolver(content)
-        );
-        toolbarButton.setAttribute(
-          attribute,
-          config.attributes[attribute].resolver(content)
-        );
-      }
-    },
-  };
+export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
+  const toolbarItem = ToolbarItem.create(config.id);
+  Object.keys(config.attributes).forEach((attributeName) => {
+    const defaultValue = config.attributes[attributeName].defaultValue;
+    toolbarItem.setAttribute(attributeName, defaultValue);
+  });
+
+  return toolbarItem;
+};
+
+export const getAttributesIdsByConfig = (config) => {
+  const attributesIds = Object.keys(config.attributes).map((attribues) => {
+    return config.attributes[attribues].id;
+  });
+
+  return attributesIds;
 };
 
 export class Toolbar {

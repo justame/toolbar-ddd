@@ -17,10 +17,12 @@ import {
   ButtonBehaviour,
   ISpec,
   IContentSpec,
+  IToolbarItem,
 } from './types';
 import { Content } from './Content';
 import {
-  configToToolbarItem,
+  createToolbarItemByConfig,
+  getAttributesIdsByConfig,
   configs,
   Toolbar as ToolbarManager,
 } from './buttonsConfigs';
@@ -30,60 +32,11 @@ interface AppProps {}
 interface AppState {
   name: string;
   selectedNodeIndex: number;
+  toolbarItemIdAttributesMap: any;
   selectedContent: any;
   specs: IContentSpec[];
+  toolbarItems: IToolbarItem[];
 }
-
-// const buttons: IToggleButtonCreator[] = [
-//   ToggleButton.create({
-//     button: {
-//       label: 'bold',
-//       onClick: (label) => {
-//         console.log(`button ${label} was clicked`);
-//       },
-//     },
-//     visiblityRules: [
-//       {
-//         test: (content: any) => {
-//           if (Array.isArray(content)) {
-//             return content.map((c) => c?.textContent).indexOf('bold') !== -1;
-//           }
-//           return false;
-//         },
-//       },
-//     ],
-//     disabledRules: [],
-//     activeRules: [],
-//   }),
-//   ToggleButton.create({
-//     button: {
-//       label: 'italic',
-//       onClick: (label) => {
-//         console.log(`button ${label} was clicked`);
-//       },
-//     },
-//     visiblityRules: [
-//       {
-//         test: (content: any) => {
-//           if (Array.isArray(content)) {
-//             return content.map((c) => c?.textContent).indexOf('italic') !== -1;
-//           }
-//           return false;
-//         },
-//       },
-//     ],
-//     disabledRules: [],
-//     activeRules: [],
-//   }),
-// ];
-
-// const boldButton = new ToggleButton(
-//   'bold',
-//   {
-//     tooltip: 'bold',
-//   },
-//   [visible]
-// );
 
 const buttons = [];
 
@@ -95,6 +48,8 @@ class App extends Component<AppProps, AppState> {
       selectedNodeIndex: 1,
       selectedContent: null,
       specs: [],
+      toolbarItems: [],
+      toolbarItemIdAttributesMap: {},
     };
   }
 
@@ -107,25 +62,24 @@ class App extends Component<AppProps, AppState> {
     this.setState({ selectedContent: nodes });
   };
 
+  componentDidMount() {
+    const toolbarItemIdAttributesMap = {};
+    const toolbarItems = [];
+    configs.forEach((config) => {
+      const toolbarItem = createToolbarItemByConfig(config);
+      const attributesIds = getAttributesIdsByConfig(config);
+      toolbarItemIdAttributesMap[toolbarItem.id] = attributesIds;
+      toolbarItems.push(toolbarItem);
+    });
+    this.setState({ toolbarItemIdAttributesMap, toolbarItems });
+  }
+
   render() {
     const selectedContent = this.state.selectedContent || {};
-    const toolbarItemsAndUpdators = configs.map((config) => {
-      return configToToolbarItem(config);
-    });
-
-    const toolbar = ToolbarManager.create(
-      toolbarItemsAndUpdators.map((item) => item.toolbarButton)
-    );
-
-    toolbarItemsAndUpdators.forEach(({ updateAttributesByContent }) => {
-      updateAttributesByContent(this.state.selectedContent);
-    });
-
-    console.log({ toolbar, toolbarItemsAndUpdators });
 
     return (
       <div>
-        {/* <Toolbar buttons={buttons} specs={this.state.specs} /> */}
+        <Toolbar buttons={currentToolbarItems} />
         <div>
           <button
             onClick={() =>

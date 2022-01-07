@@ -10,29 +10,24 @@ import {
   IToggleButton,
   IToolbarButton,
   IToggleButtonCreator,
+  IToolbarItem,
 } from './types';
 
 class ButtonsManager implements ButtonsAggregator<IEditorContent> {
-  constructor(private toolbarsButtons: IToggleButtonCreator[]) {}
-  getRelevantButtons(content: IEditorContent) {
-    return this.toolbarsButtons
-      .map((buttonCreator) => {
-        const button = buttonCreator(content);
-        return button;
-      })
-      .filter((button) => {
-        return button.visible;
-      });
+  constructor(private toolbarItems: IToolbarItem[]) {}
+  getVisibleItems(content: IEditorContent) {
+    return this.toolbarItems.filter((toolbarItem) => {
+      return !!toolbarItem.getAttribute('visible');
+    });
   }
 }
 
 type ToolbarProps = {
-  content: any;
-  buttons: IToggleButtonCreator[];
+  buttons: IToolbarItem[];
 };
 
 class Toolbar extends Component<ToolbarProps, null> {
-  buttons: IToggleButtonCreator[];
+  buttons: IToolbarItem[];
   buttonsManager: ButtonsAggregator<IEditorContent>;
 
   constructor(props) {
