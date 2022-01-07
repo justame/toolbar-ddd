@@ -31,15 +31,15 @@ interface AppProps {}
 interface AppState {
   name: string;
   selectedNodeIndex: number;
-  toolbarItemIdAttributesMap: any;
   selectedContent: any;
   specs: IContentSpec[];
-  toolbarItems: IToolbarItem[];
 }
 
 const buttons = [];
 
 class App extends Component<AppProps, AppState> {
+  toolbarItemIdAttributesMap = {};
+  toolbarItems = [];
   constructor(props) {
     super(props);
     this.state = {
@@ -47,8 +47,6 @@ class App extends Component<AppProps, AppState> {
       selectedNodeIndex: 1,
       selectedContent: null,
       specs: [],
-      toolbarItems: [],
-      toolbarItemIdAttributesMap: {},
     };
   }
 
@@ -57,9 +55,10 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
+    console.log('setSelection', nodes);
     this.setState({ selectedContent: nodes });
-    this.state.toolbarItems.forEach((toolbarItem) => {
-      const attributes = this.state.toolbarItemIdAttributesMap[toolbarItem.id];
+    this.toolbarItems.forEach((toolbarItem) => {
+      const attributes = this.toolbarItemIdAttributesMap[toolbarItem.id];
       Object.keys(attributes).forEach((attributeName) => {
         const resolvedValue = attributes[attributeName].resolve(nodes);
         toolbarItem.setAttribute(attributeName, resolvedValue);
@@ -67,7 +66,7 @@ class App extends Component<AppProps, AppState> {
     });
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const toolbarItemIdAttributesMap = {};
     const toolbarItems = [];
     configs.forEach((config) => {
@@ -76,13 +75,15 @@ class App extends Component<AppProps, AppState> {
       toolbarItemIdAttributesMap[toolbarItem.id] = attributes;
       toolbarItems.push(toolbarItem);
     });
-    this.setState({ toolbarItemIdAttributesMap, toolbarItems });
+
+    this.toolbarItemIdAttributesMap = toolbarItemIdAttributesMap;
+    this.toolbarItems = toolbarItems;
   }
 
   render() {
     return (
       <div>
-        <Toolbar buttons={this.state.toolbarItems} />
+        <Toolbar buttons={this.toolbarItems} />
         <div>
           <button
             onClick={() =>

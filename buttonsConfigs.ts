@@ -3,10 +3,12 @@ export const configs: ToolbarItemConfig[] = [
   {
     id: 'bold',
     type: 'toggle',
+    label: 'Bold',
     attributes: {
       visible: {
         id: 'containsText',
         resolve: (content) => {
+          console.log(content);
           return (
             Array.isArray(content) &&
             content.map((c) => c?.textContent).indexOf('bold') !== -1
@@ -19,8 +21,17 @@ export const configs: ToolbarItemConfig[] = [
   },
   {
     id: 'textColor',
+    label: 'Color',
     type: 'colorPicker',
     attributes: {
+      visible: {
+        id: 'visibleColor',
+        resolve: (content) => {
+          return true;
+        },
+        description: 'text color',
+        defaultValue: true,
+      },
       color: {
         id: 'color',
         resolve: (content) => {
@@ -35,7 +46,10 @@ export const configs: ToolbarItemConfig[] = [
 
 export class ToolbarItem implements IToolbarItem {
   attributes = {};
-  private constructor(readonly id) {}
+  label = '';
+  private constructor(readonly id, label: string) {
+    this.label = label;
+  }
 
   setAttribute(key, value) {
     this.attributes[key] = value;
@@ -43,13 +57,13 @@ export class ToolbarItem implements IToolbarItem {
   getAttribute(key) {
     return this.attributes[key];
   }
-  static create(id) {
-    return new ToolbarItem(id);
+  static create(id, label) {
+    return new ToolbarItem(id, label);
   }
 }
 
 export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
-  const toolbarItem = ToolbarItem.create(config.id);
+  const toolbarItem = ToolbarItem.create(config.id, config.label);
   Object.keys(config.attributes).forEach((attributeName) => {
     const defaultValue = config.attributes[attributeName].defaultValue;
     toolbarItem.setAttribute(attributeName, defaultValue);
@@ -80,36 +94,3 @@ export class Toolbar {
     });
   }
 }
-
-// const attribute = {
-//   name: 'color',
-//   value: 'red'
-// }
-
-// toolbarItem.setAttribute(attribute)
-
-// resolved
-// resolver
-// class ContentAttribute {
-//   private constructor(id, selector) {
-
-//   }
-
-//   create(){
-//     new ContentSelector(id, selector: ContentSelector);
-//   }
-// }
-
-// const contentAttribute = {
-//   id: 'bold',
-//   selector: (content) => {
-//     return content.nodes[0];
-//   }
-// }
-
-// const buttonsConfigs = [
-//   {
-//     id: 'bold',
-//     attributes: [],
-//   },
-// ];

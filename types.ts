@@ -12,8 +12,8 @@ export type IActiveRule<T> = {
   test: (content: any) => boolean;
 };
 
-export interface ButtonsAggregator<T> {
-  getVisibleItems: () => IToolbarButton[];
+export interface ButtonsAggregator {
+  getVisibleItems: () => IToolbarItem[];
 }
 
 export interface IEditorContent {}
@@ -80,11 +80,13 @@ export interface ContentResolver<T> {
 export interface ToolbarItemConfig {
   id: string;
   type: string;
+  label: string;
   attributes: Record<string, ContentResolver<number | string | boolean>>;
 }
 
 export interface IToolbarItem {
   id: string;
+  label: string;
   attributes: ToolbarItemConfig['attributes'];
   setAttribute: (key, value) => void;
   getAttribute: (key) => any;

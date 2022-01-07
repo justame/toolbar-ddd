@@ -13,9 +13,10 @@ import {
   IToolbarItem,
 } from './types';
 
-class ButtonsManager implements ButtonsAggregator<IEditorContent> {
+class ButtonsManager implements ButtonsAggregator {
   constructor(private toolbarItems: IToolbarItem[]) {}
-  getVisibleItems(content: IEditorContent) {
+  getVisibleItems() {
+    console.log(this.toolbarItems);
     return this.toolbarItems.filter((toolbarItem) => {
       return !!toolbarItem.getAttribute('visible');
     });
@@ -28,22 +29,28 @@ type ToolbarProps = {
 
 class Toolbar extends Component<ToolbarProps, null> {
   buttons: IToolbarItem[];
-  buttonsManager: ButtonsAggregator<IEditorContent>;
+  buttonsManager: ButtonsAggregator;
 
   constructor(props) {
     super(props);
+
     this.buttonsManager = new ButtonsManager(this.props.buttons);
   }
 
   render() {
-    const { content } = this.props;
-    const toolbarButtons = this.buttonsManager.getRelevantButtons(content);
+    const toolbarButtons = this.buttonsManager.getVisibleItems();
 
     // add logic to render button by type
     return (
       <div className="toolbar">
         {toolbarButtons.map((toolbarButton, index) => {
-          return <ToolbarButtonComponent key={index} {...toolbarButton} />;
+          return (
+            <ToolbarButtonComponent
+              key={index}
+              {...toolbarButton.attributes}
+              label={toolbarButton.label}
+            />
+          );
         })}
       </div>
     );
