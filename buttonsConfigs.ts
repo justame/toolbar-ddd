@@ -1,4 +1,9 @@
-import { ToolbarItemConfig, IToolbarItem, ContentResolver } from './types';
+import {
+  ToolbarItemConfig,
+  IToolbarItem,
+  ContentResolver,
+  ToolbarSpec,
+} from './types';
 export const configs: ToolbarItemConfig[] = [
   {
     id: 'bold',
@@ -88,9 +93,7 @@ export class Toolbar {
     return new Toolbar(toolbarItems);
   }
 
-  getItemsAttributes() {
-    return this.toolbarItems.map((toolbarItem) => {
-      return Object.keys(toolbarItem.attributes);
-    });
+  getItemsBy(spec: ToolbarSpec) {
+    return this.toolbarItems.filter(spec);
   }
 }

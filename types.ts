@@ -91,3 +91,5 @@ export interface IToolbarItem {
   setAttribute: (key, value) => void;
   getAttribute: (key) => any;
 }
+
+export type ToolbarSpec = (toolbarItem: IToolbarItem) => boolean;

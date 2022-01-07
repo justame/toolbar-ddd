@@ -2,31 +2,18 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-import Toolbar from './Toolbar';
+import ToolbarComponent from './Toolbar';
 // import content from './content.json';
 import { Tiptap } from './TiptapEditor';
-import {
-  IToolbarButtonConfig,
-  IVisibiltyRule,
-  IDisabledRule,
-  IRicosContent,
-  IDraftContent,
-  IToggleButtonConfig,
-  IToggleButton,
-  IToggleButtonCreator,
-  ButtonBehaviour,
-  ISpec,
-  IContentSpec,
-  IToolbarItem,
-} from './types';
-import { Content } from './Content';
+import { IContentSpec } from './types';
+
 import {
   createToolbarItemByConfig,
   configs,
   Toolbar as ToolbarManager,
+  Toolbar,
 } from './buttonsConfigs';
-import { ToggleButton } from './ToggleButton';
-import { containsText } from './features';
+
 interface AppProps {}
 interface AppState {
   name: string;
@@ -40,6 +27,8 @@ const buttons = [];
 class App extends Component<AppProps, AppState> {
   toolbarItemIdAttributesMap = {};
   toolbarItems = [];
+  toolbar: Toolbar = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -71,19 +60,20 @@ class App extends Component<AppProps, AppState> {
     const toolbarItems = [];
     configs.forEach((config) => {
       const toolbarItem = createToolbarItemByConfig(config);
-      const attributes = config.attributes;
-      toolbarItemIdAttributesMap[toolbarItem.id] = attributes;
+      toolbarItemIdAttributesMap[toolbarItem.id] = config.attributes;
       toolbarItems.push(toolbarItem);
     });
 
     this.toolbarItemIdAttributesMap = toolbarItemIdAttributesMap;
     this.toolbarItems = toolbarItems;
+
+    this.toolbar = Toolbar.create(toolbarItems);
   }
 
   render() {
     return (
       <div>
-        <Toolbar buttons={this.toolbarItems} />
+        <ToolbarComponent toolbar={this.toolbar} />
         <div>
           <button
             onClick={() =>

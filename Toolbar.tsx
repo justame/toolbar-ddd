@@ -11,11 +11,14 @@ import {
   IToolbarButton,
   IToggleButtonCreator,
   IToolbarItem,
+  ToolbarSpec,
 } from './types';
 
+import { Toolbar } from './buttonsConfigs';
 class ButtonsManager implements ButtonsAggregator {
   constructor(private toolbarItems: IToolbarItem[]) {}
   getVisibleItems() {
+    //toolbar.getItemsBySpec(visible)
     console.log(this.toolbarItems);
     return this.toolbarItems.filter((toolbarItem) => {
       return !!toolbarItem.getAttribute('visible');
@@ -24,23 +27,23 @@ class ButtonsManager implements ButtonsAggregator {
 }
 
 type ToolbarProps = {
-  buttons: IToolbarItem[];
+  toolbar: Toolbar;
 };
 
-class Toolbar extends Component<ToolbarProps, null> {
-  buttons: IToolbarItem[];
-  buttonsManager: ButtonsAggregator;
+const visibleItemsSpec: ToolbarSpec = (toolbarItem) =>
+  toolbarItem.getAttribute('visible');
+
+class ToolbarComponent extends Component<ToolbarProps, null> {
+  toolbar: Toolbar = null;
 
   constructor(props) {
     super(props);
-
-    this.buttonsManager = new ButtonsManager(this.props.buttons);
+    this.toolbar = this.props.toolbar;
   }
 
   render() {
-    const toolbarButtons = this.buttonsManager.getVisibleItems();
+    const toolbarButtons = this.toolbar.getItemsBy(visibleItemsSpec);
 
-    // add logic to render button by type
     return (
       <div className="toolbar">
         {toolbarButtons.map((toolbarButton, index) => {
@@ -57,4 +60,4 @@ class Toolbar extends Component<ToolbarProps, null> {
   }
 }
 
-export default Toolbar;
+export default ToolbarComponent;
