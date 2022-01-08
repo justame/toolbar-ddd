@@ -1,5 +1,6 @@
 import { ToolbarItem } from './ToolbarItem';
 import { ContentResolver } from './ContentResolver';
+import { Toolbar } from './Toolbar';
 
 import { isContainsTextResolver, textColorResolver } from './resolvers';
 import { Content } from './Content';
@@ -39,11 +40,18 @@ export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
     toolbarItem.setAttribute(attributeName, defaultValue);
   });
 
-  const updateAttributes = (content: Content) => {
-    Object.keys(config.attributes).forEach((attributeName) => {
-      const value = content.resolve(config.attributes[attributeName]);
-      toolbarItem.setAttribute(attributeName, value);
-    });
-  };
+  const updateAttributes = createUpdateAttributes(toolbarItem.id, config);
   return { toolbarItem, updateAttributes };
+};
+
+const createUpdateAttributes = (toolbarItemId, config) => {
+  return (toolbar: Toolbar, content) => {
+    const toolbarItem = toolbar.getItemById(toolbarItemId);
+    if (toolbarItem) {
+      Object.keys(config.attributes).forEach((attributeName) => {
+        const value = content.resolve(config.attributes[attributeName]);
+        toolbarItem.setAttribute(attributeName, value);
+      });
+    }
+  };
 };

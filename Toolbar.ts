@@ -1,11 +1,8 @@
 import { IToolbarItem, ToolbarSpec } from './types';
 
 export class Toolbar {
-  id: string;
   readonly toolbarItems: IToolbarItem[] = [];
-  private constructor() {
-    // read about private constructor
-  }
+  private constructor() {}
 
   static create() {
     return new Toolbar();
@@ -13,6 +10,10 @@ export class Toolbar {
 
   getItemsBy(spec: ToolbarSpec) {
     return this.toolbarItems.filter(spec);
+  }
+
+  getItemById(id) {
+    return this.toolbarItems.find((item) => item.id === id);
   }
 
   addToolbarItem(toolbarItem: IToolbarItem) {
