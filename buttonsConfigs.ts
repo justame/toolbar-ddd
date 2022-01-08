@@ -1,9 +1,8 @@
-import { IToolbarItem, ToolbarSpec } from './types';
-
 import { ToolbarItem } from './ToolbarItem';
 import { ContentResolver } from './ContentResolver';
 
-import { isContainsTextResolver, textColorResolver } from './contentResolvers';
+import { isContainsTextResolver, textColorResolver } from './resolvers';
+import { Content } from './Content';
 
 interface ToolbarItemConfig {
   id: string;
@@ -48,26 +47,3 @@ export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
   };
   return { toolbarItem, updateAttributes };
 };
-
-
-
-export class Toolbar {
-  id: string;
-  readonly toolbarItems: IToolbarItem[] = [];
-  private constructor() {
-    // read about private constructor
-  }
-
-  static create() {
-    return new Toolbar();
-  }
-
-  getItemsBy(spec: ToolbarSpec) {
-    return this.toolbarItems.filter(spec);
-  }
-
-  addToolbarItem(toolbarItem: IToolbarItem) {
-    // validate no duplicate id
-    this.toolbarItems.push(toolbarItem);
-  }
-}

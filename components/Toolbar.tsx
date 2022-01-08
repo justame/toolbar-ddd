@@ -1,30 +1,7 @@
 import React, { Component } from 'react';
 import ToolbarButtonComponent from './ToolbarButton';
-import {
-  ButtonsAggregator,
-  IVisibiltyRule,
-  IToolbarButtonConfig,
-  IToolbarButtonBase,
-  IRicosContent,
-  IEditorContent,
-  IToggleButton,
-  IToolbarButton,
-  IToggleButtonCreator,
-  IToolbarItem,
-  ToolbarSpec,
-} from './types';
-
-import { Toolbar } from './buttonsConfigs';
-class ButtonsManager implements ButtonsAggregator {
-  constructor(private toolbarItems: IToolbarItem[]) {}
-  getVisibleItems() {
-    //toolbar.getItemsBySpec(visible)
-    console.log(this.toolbarItems);
-    return this.toolbarItems.filter((toolbarItem) => {
-      return !!toolbarItem.getAttribute('visible');
-    });
-  }
-}
+import { IToolbarItem, ToolbarSpec } from '../types';
+import { Toolbar } from '../Toolbar';
 
 type ToolbarProps = {
   toolbar: Toolbar;

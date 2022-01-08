@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './style.css';
-import ToolbarComponent from './Toolbar';
+import ToolbarComponent from './components/Toolbar';
 import { Tiptap } from './TiptapEditor';
 
-import {
-  createToolbarItemByConfig,
-  configs,
-  Toolbar as ToolbarManager,
-  Toolbar,
-} from './buttonsConfigs';
+import { createToolbarItemByConfig, configs } from './buttonsConfigs';
 import { Content } from './Content';
+import { Toolbar } from './Toolbar';
 
 interface AppProps {}
 interface AppState {
