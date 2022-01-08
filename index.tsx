@@ -9,8 +9,8 @@ import {
   configs,
   Toolbar as ToolbarManager,
   Toolbar,
-  Content,
 } from './buttonsConfigs';
+import { Content } from './Content';
 
 interface AppProps {}
 interface AppState {
@@ -18,10 +18,8 @@ interface AppState {
 }
 
 class App extends Component<AppProps, AppState> {
-  toolbarItemIdAttributesMap = {};
-  toolbarItems = [];
   toolbar: Toolbar = null;
-  updateAttributesList = [];
+  toolbarItemUpdators = [];
 
   constructor(props) {
     super(props);
@@ -35,23 +33,22 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    console.log('setSelection', nodes);
-    this.setState({ selectedContent: nodes });
     const content = Content.create(nodes);
-    this.updateAttributesList.forEach((updateAttribute) => {
+    this.toolbarItemUpdators.forEach((updateAttribute) => {
       updateAttribute(content);
     });
+
+    this.setState({ selectedContent: nodes });
   };
 
   componentWillMount() {
     this.toolbar = Toolbar.create();
 
-    // const toolbarItemIdAttributesMap = {};
-    // const toolbarItems = [];
     configs.forEach((config) => {
       const { toolbarItem, updateAttributes } =
         createToolbarItemByConfig(config);
-      this.updateAttributesList.push(updateAttributes);
+
+      this.toolbarItemUpdators.push(updateAttributes);
       this.toolbar.addToolbarItem(toolbarItem);
     });
   }

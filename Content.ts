@@ -1,10 +1,17 @@
-import { IContentSpec } from './types';
-export class Content {
-  constructor(private content, private specs: IContentSpec[]) {}
+import { ContentResolver } from './ContentResolver';
 
-  getValidSpecs() {
-    return this.specs.filter((spec) => {
-      return spec.test(this.content);
-    });
+export class Content {
+  private constructor(private content) {}
+  private resolved = {};
+  resolve(contentResolver: ContentResolver) {
+    if (this.resolved[contentResolver.id]) {
+      return this.resolved[contentResolver.id];
+    } else {
+      this.resolved[contentResolver.id] = contentResolver.resolve(this.content);
+    }
+    return this.resolved[contentResolver.id];
+  }
+  static create(content) {
+    return new Content(content);
   }
 }
