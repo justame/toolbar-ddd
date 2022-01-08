@@ -13,6 +13,10 @@ interface AppState {
   selectedContent: any;
 }
 
+// implement flicks
+// color indicator
+// tooltip
+// icon
 class App extends Component<AppProps, AppState> {
   toolbar: Toolbar = null;
   toolbarItemUpdators = [];
