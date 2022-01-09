@@ -4,11 +4,10 @@ import EventEmitter from './EventEmitter';
 import { Content } from './Content';
 
 //ricosToolbar
-type ToolbarCreator = (content: Content) => IToolbarItem;
+type ToolbarItemCreator = (content: Content) => IToolbarItem;
 
-const  toolbarItemCreator;
-class ToolbarItemCreator {
-  static create(toolbarItemConfig: IToolbarItemConfig): ToolbarCreator {
+class ToolbarItem {
+  static create(toolbarItemConfig: IToolbarItemConfig): ToolbarItemCreator {
     return (content) => {
       const toolbarItemCreator = {
         id: toolbarItemConfig.id,
@@ -35,7 +34,7 @@ type RicosToolbarProps = {
 };
 
 export class RicosToolbar extends EventEmitter {
-  readonly toolbarItems: IToolbarItem[] = [];
+  private toolbarItems: IToolbarItem[] = [];
   private toolbarItemCreators: IToolbarItemConfig[];
 
   static create({ toolbarItemCreators, content }: RicosToolbarProps) {
@@ -44,44 +43,26 @@ export class RicosToolbar extends EventEmitter {
 
   private constructor({ toolbarItemCreators, content }: RicosToolbarProps) {
     super();
+    this.toolbarItems = [];
     this.toolbarItemCreators = toolbarItemCreators;
 
-    toolbarItemCreators.forEach((config) => {
-      const toolbarItem = ToolbarItem.create(config)(content);
-      this.addToolbarItem(toolbarItem);
+    this.toolbarItems = this.toolbarItemCreators.map((config) => {
+      return ToolbarItem.create(config)(content);
     });
 
-    content.on('change', (contentChangeEvent) => {
-      // updateButtons
+    content.on('change', () => {
+      this.toolbarItems = this.toolbarItemCreators.map((config) => {
+        return ToolbarItem.create(config)(content);
+      });
     });
   }
 
-  private createToolbarItemByConfig = (
-    config: IToolbarItemConfig
-  ): IToolbarItem => {
-    const toolbarItem: IToolbarItem = {
-      id: config.id,
-      presentation: config.presentation,
-      type: config.type,
-      attributes: {},
-    };
+  private addToolbarItem(toolbarItem: IToolbarItem) {
+    this.toolbarItems.push(toolbarItem);
+  }
 
-    return toolbarItem;
-  };
-
-  private updateToolbarItemAttributes(toolbarItemId) {
-    ToolbarItem.from(this.configs, this.content);
-    const { attributes } = this.itemConfigMap[toolbarItemId];
-
-    const toolbarItem = this.toolbarItems.find(
-      (toolbarItem) => toolbarItem.id === toolbarItem.id
-    );
-
-    Object.keys(attributes).forEach((attributeName) => {
-      toolbarItem.attributes[attributeName] = this.content.resolve(
-        attributes[attributeName]
-      );
-    });
+  getItems() {
+    return this.toolbarItems;
   }
 
   getItemsBy(spec: ToolbarSpec) {
@@ -90,10 +71,5 @@ export class RicosToolbar extends EventEmitter {
 
   getItemById(id) {
     return this.toolbarItems.find((item) => item.id === id);
-  }
-
-  addToolbarItem(toolbarItem: IToolbarItem) {
-    // validate no duplicate id
-    this.toolbarItems.push(toolbarItem);
   }
 }

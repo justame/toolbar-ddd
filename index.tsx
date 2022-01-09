@@ -6,7 +6,7 @@ import { Tiptap } from './TiptapEditor';
 
 import { configs } from './buttonsConfigs';
 import { Content } from './Content';
-import { Toolbar } from './Toolbar';
+import { RicosToolbar } from './Toolbar';
 
 interface AppProps {}
 interface AppState {
@@ -18,14 +18,17 @@ interface AppState {
 // tooltip
 // icon
 class App extends Component<AppProps, AppState> {
-  toolbar: Toolbar = null;
+  toolbar: RicosToolbar = null;
   toolbarItemUpdators = [];
   content: any;
 
   constructor(props) {
     super(props);
     this.content = Content.create(null);
-    this.toolbar = Toolbar.create(configs, Content.create(null));
+    this.toolbar = RicosToolbar.create({
+      toolbarItemCreators: configs,
+      content: this.content,
+    });
     this.state = {
       selectedContent: null,
     };
