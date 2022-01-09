@@ -7,7 +7,6 @@ import { ToolbarItem } from '../ToolbarItem';
 import { Content } from '../Content';
 
 type ToolbarProps = {
-  toolbar: Toolbar;
   configs: any;
   content: any;
 };
@@ -45,9 +44,9 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
   state = {};
   constructor(props) {
     super(props);
-
-    this.toolbar = this.props.toolbar;
     const { configs } = this.props;
+
+    this.toolbar = Toolbar.create(configs);
     configs.forEach((config) => {
       const toolbarItem = createToolbarItemByConfig(config);
       this.toolbar.addToolbarItem(toolbarItem);

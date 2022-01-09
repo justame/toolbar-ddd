@@ -23,6 +23,7 @@ class App extends Component<AppProps, AppState> {
 
   constructor(props) {
     super(props);
+    this.toolbar = Toolbar.create(configs);
     this.state = {
       selectedContent: null,
     };
@@ -41,21 +42,12 @@ class App extends Component<AppProps, AppState> {
     this.setState({ selectedContent: nodes });
   };
 
-  componentWillMount() {
-    // this.toolbar = Toolbar.create();
-    // configs.forEach((config) => {
-    //   const { toolbarItem, updateAttributes } =
-    //     createToolbarItemByConfig(config);
-    // this.toolbarItemUpdators.push(updateAttributes);
-    // this.toolbar.addToolbarItem(toolbarItem);
-    // });
-  }
+  componentWillMount() {}
 
   render() {
     return (
       <div>
         <ToolbarComponent
-          toolbar={this.toolbar}
           configs={configs}
           content={this.state.selectedContent}
         />

@@ -4,15 +4,10 @@ import { Toolbar } from './Toolbar';
 
 import { isContainsTextResolver, textColorResolver } from './resolvers';
 import { Content } from './Content';
+import {IToolbarItemConfig} from './types';
 
-export interface ToolbarItemConfig {
-  id: string;
-  type: string;
-  label: string;
-  attributes: Record<string, ContentResolver>;
-}
 
-export const configs: ToolbarItemConfig[] = [
+export const configs: IToolbarItemConfig[] = [
   {
     id: 'bold',
     type: 'toggle',
@@ -20,11 +15,11 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       visible: isContainsTextResolver,
     },
-    // commands: {
-    //   click: ({ attributes, editorCommands, getPosition }) => {
-    //     return editorCommands.toggleInline('bold');
-    //   },
-    // },
+    commands: {
+      click: ({ attributes, editorCommands, getPosition }) => {
+        return editorCommands.toggleInline('bold');
+      },
+    },
   },
   {
     id: 'textColor',
