@@ -6,7 +6,7 @@ import { Tiptap } from './TiptapEditor';
 
 import { configs } from './buttonsConfigs';
 import { Content } from './Content';
-import { RicosToolbar } from './Toolbar';
+import { RicosToolbar, ToolbarItem } from './Toolbar';
 
 interface AppProps {}
 interface AppState {
@@ -26,7 +26,7 @@ class App extends Component<AppProps, AppState> {
     super(props);
     this.content = Content.create(null);
     this.toolbar = RicosToolbar.create({
-      toolbarItemCreators: configs,
+      toolbarItemCreators: configs.map((config) => ToolbarItem.create(config)),
       content: this.content,
     });
     this.state = {

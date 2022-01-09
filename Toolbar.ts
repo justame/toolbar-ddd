@@ -6,7 +6,7 @@ import { Content } from './Content';
 //ricosToolbar
 type ToolbarItemCreator = (content: Content) => IToolbarItem;
 
-class ToolbarItem {
+export class ToolbarItem {
   static create(toolbarItemConfig: IToolbarItemConfig): ToolbarItemCreator {
     return (content) => {
       const toolbarItemCreator = {
@@ -29,13 +29,14 @@ class ToolbarItem {
 }
 
 type RicosToolbarProps = {
-  toolbarItemCreators: IToolbarItemConfig[];
+  toolbarItemCreators: ToolbarItemCreator[];
   content: Content;
 };
 
 export class RicosToolbar extends EventEmitter {
   private toolbarItems: IToolbarItem[] = [];
-  private toolbarItemCreators: IToolbarItemConfig[];
+  private toolbarItemCreators: ToolbarItemCreator[];
+  private content: Content;
 
   static create({ toolbarItemCreators, content }: RicosToolbarProps) {
     return new RicosToolbar({ toolbarItemCreators, content });
@@ -45,22 +46,24 @@ export class RicosToolbar extends EventEmitter {
     super();
     this.toolbarItems = [];
     this.toolbarItemCreators = toolbarItemCreators;
+    this.content = content;
 
-    this.toolbarItems = this.toolbarItemCreators.map((config) => {
-      return ToolbarItem.create(config)(content);
-    });
+    this.toolbarItems = this.createToolbarItems();
 
     content.on('change', () => {
-      this.toolbarItems = this.toolbarItemCreators.map((config) => {
-        return ToolbarItem.create(config)(content);
-      });
+      this.toolbarItems = this.createToolbarItems();
     });
   }
 
-  private addToolbarItem(toolbarItem: IToolbarItem) {
-    this.toolbarItems.push(toolbarItem);
+  private createToolbarItems() {
+    return this.toolbarItemCreators.map((toolbarItemCreator) => {
+      return toolbarItemCreator(this.content);
+    });
   }
 
+  addToolbarItemCreator(toolbarItemCreator: ToolbarItemCreator) {
+    this.toolbarItemCreators.push(toolbarItemCreator);
+  }
   getItems() {
     return this.toolbarItems;
   }
