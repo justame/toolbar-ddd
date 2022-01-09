@@ -36,9 +36,6 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    // this.toolbarItemUpdators.forEach((updateAttribute) => {
-    //   updateAttribute(this.toolbar, content);
-    // });
     this.content.updateContent(nodes);
     this.setState({ selectedContent: nodes });
   };

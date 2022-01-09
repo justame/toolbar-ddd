@@ -1,12 +1,34 @@
 import { IToolbarItem, ToolbarSpec, IToolbarItemConfig } from './types';
-import { ToolbarItem } from './ToolbarItem';
+
 import EventEmitter from './EventEmitter';
 import { Content } from './Content';
 
 //ricosToolbar
+
+class ToolbarItem {
+  static from(
+    toolbarItemConfig: IToolbarItemConfig,
+    content: Content
+  ): IToolbarItem {
+    const toolbarItem = {
+      id: toolbarItemConfig.id,
+      presentation: toolbarItemConfig.presentation,
+      type: toolbarItemConfig.type,
+      attributes: {},
+    };
+    if (!content.isEmpty()) {
+      Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
+        toolbarItem.attributes[attributeName] = content.resolve(
+          toolbarItemConfig.attributes[attributeName]
+        );
+      });
+    }
+
+    return toolbarItem;
+  }
+}
 export class Toolbar extends EventEmitter {
   readonly toolbarItems: IToolbarItem[] = [];
-  itemConfigMap = {};
 
   static create(configs: IToolbarItemConfig[], content: Content) {
     return new Toolbar(configs, content);
@@ -15,9 +37,8 @@ export class Toolbar extends EventEmitter {
   private constructor(private configs, private content) {
     super();
     configs.forEach((config) => {
-      const toolbarItem = this.createToolbarItemByConfig(config);
+      const toolbarItem = ToolbarItem.from(config, this.content);
       this.addToolbarItem(toolbarItem);
-      this.updateToolbarItemAttributes(toolbarItem.id);
     });
 
     content.on('change', (contentChangeEvent) => {
@@ -34,12 +55,12 @@ export class Toolbar extends EventEmitter {
       type: config.type,
       attributes: {},
     };
-    this.itemConfigMap[toolbarItem.id] = config;
 
     return toolbarItem;
   };
 
   private updateToolbarItemAttributes(toolbarItemId) {
+    ToolbarItem.from(this.configs, this.content);
     const { attributes } = this.itemConfigMap[toolbarItemId];
 
     const toolbarItem = this.toolbarItems.find(
