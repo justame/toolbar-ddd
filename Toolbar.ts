@@ -9,21 +9,20 @@ type ToolbarItemCreator = (content: Content) => IToolbarItem;
 export class ToolbarItem {
   static create(toolbarItemConfig: IToolbarItemConfig): ToolbarItemCreator {
     return (content) => {
-      const toolbarItemCreator = {
+      const toolbarItem = {
         id: toolbarItemConfig.id,
         presentation: toolbarItemConfig.presentation,
         type: toolbarItemConfig.type,
         attributes: {},
       };
 
-      if (!content.isEmpty()) {
-        Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
-          toolbarItemCreator.attributes[attributeName] = content.resolve(
-            toolbarItemConfig.attributes[attributeName]
-          );
-        });
-      }
-      return toolbarItemCreator;
+      Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
+        toolbarItem.attributes[attributeName] = content.resolve(
+          toolbarItemConfig.attributes[attributeName]
+        );
+      });
+
+      return toolbarItem;
     };
   }
 }
@@ -54,9 +53,13 @@ export class RicosToolbar extends EventEmitter {
     this.toolbarItems = this.createToolbarItems();
 
     content.on(Content.EVENTS.contentChangeEvent, () => {
-      console.log('on change@!!!');
+      const previousToolbarItems = Object.freeze(this.toolbarItems);
       this.toolbarItems = this.createToolbarItems();
-      this.emit(RicosToolbar.EVENTS.toolbarsCreated);
+
+      this.emit(RicosToolbar.EVENTS.toolbarsCreated, {
+        previousToolbarItems,
+        toolbarItems: Object.freeze(this.toolbarItems),
+      });
     });
   }
 

@@ -6,7 +6,9 @@ const ToolbarButton = (props) => {
   return (
     <div className="toolbarButton">
       <button>
-        {props.presentation?.label} is {props.attributes?.visible?.toString()}
+        {toolbarButton.presentation?.label} is{' '}
+        {toolbarButton.attributes?.visible?.toString()}
+        {toolbarButton.presentation?.color}
         {Math.random().toFixed(4).toString()}
       </button>
     </div>

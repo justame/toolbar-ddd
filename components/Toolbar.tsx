@@ -42,10 +42,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
                 this.items[toolbarButton.id] = item;
               }}
             >
-              <ToolbarButtonComponent
-                key={index}
-                toolbarButton={toolbarButton}
-              />
+              <ToolbarButtonComponent toolbarButton={toolbarButton} />
             </div>
           );
         })}
