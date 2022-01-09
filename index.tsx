@@ -21,6 +21,7 @@ class App extends Component<AppProps, AppState> {
   toolbar: RicosToolbar = null;
   toolbarItemUpdators = [];
   content: Content;
+  editor: any;
 
   constructor(props) {
     super(props);
@@ -45,16 +46,28 @@ class App extends Component<AppProps, AppState> {
     this.setState({ selectedContent: nodes });
   };
 
-  componentWillMount() {}
+  componentDidMount() {
+    setTimeout(() => {
+      console.log(this.editor);
+      this.toolbar = RicosToolbar.create({
+        toolbarItemCreators: configs.map((config) =>
+          ToolbarItem.create(config)
+        ),
+        content: this.content,
+        editor: this.editor,
+      });
+    }, 1000);
+  }
 
   render() {
     return (
       <div>
-        <ToolbarComponent toolbar={this.toolbar} />
+        {this.toolbar && <ToolbarComponent toolbar={this.toolbar} />}
         <div style={{ height: 100, overflow: 'auto' }}>
           {this.renderNodeContent()}
         </div>
         <Tiptap
+          onLoad={(editor) => (this.editor = editor)}
           onSelectionChange={(nodes) => {
             this.setSelection(nodes);
           }}

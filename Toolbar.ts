@@ -40,6 +40,7 @@ export class ToolbarItem {
 type RicosToolbarProps = {
   toolbarItemCreators: ToolbarItemCreator[];
   content: Content;
+  editor: any;
 };
 
 export class RicosToolbar extends EventEmitter {
@@ -49,16 +50,24 @@ export class RicosToolbar extends EventEmitter {
   private toolbarItems: IToolbarItem[] = [];
   private toolbarItemCreators: ToolbarItemCreator[];
   private content: Content;
+  private editor = null;
 
-  static create({ toolbarItemCreators, content }: RicosToolbarProps) {
-    return new RicosToolbar({ toolbarItemCreators, content });
+  static create({ toolbarItemCreators, content, editor }: RicosToolbarProps) {
+    return new RicosToolbar({ toolbarItemCreators, content, editor });
   }
 
-  private constructor({ toolbarItemCreators, content }: RicosToolbarProps) {
+  private constructor({
+    toolbarItemCreators,
+    content,
+    editor,
+  }: RicosToolbarProps) {
     super();
     this.toolbarItems = [];
     this.toolbarItemCreators = toolbarItemCreators;
     this.content = content;
+    this.editor = editor;
+
+    console.log(this.editor);
 
     this.toolbarItems = this.createToolbarItems();
 
