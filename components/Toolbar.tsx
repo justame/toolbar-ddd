@@ -18,10 +18,15 @@ const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
 class ToolbarComponent extends Component<ToolbarProps, {}> {
   toolbar: RicosToolbar = null;
   items: Record<string, any> = {};
-  state = {};
+  state = {
+    dummyUpdate: 1,
+  };
   constructor(props) {
     super(props);
     this.toolbar = props.toolbar;
+    this.toolbar.on(RicosToolbar.EVENTS.toolbarsCreated, () => {
+      this.setState({ dummyUpdate: this.state.dummyUpdate + 1 });
+    });
   }
 
   render() {

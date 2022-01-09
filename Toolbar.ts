@@ -34,6 +34,9 @@ type RicosToolbarProps = {
 };
 
 export class RicosToolbar extends EventEmitter {
+  static EVENTS = {
+    toolbarsCreated: 'toolbarsCreated',
+  };
   private toolbarItems: IToolbarItem[] = [];
   private toolbarItemCreators: ToolbarItemCreator[];
   private content: Content;
@@ -51,7 +54,9 @@ export class RicosToolbar extends EventEmitter {
     this.toolbarItems = this.createToolbarItems();
 
     content.on(Content.EVENTS.contentChangeEvent, () => {
+      console.log('on change@!!!');
       this.toolbarItems = this.createToolbarItems();
+      this.emit(RicosToolbar.EVENTS.toolbarsCreated);
     });
   }
 

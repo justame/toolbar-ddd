@@ -20,7 +20,7 @@ interface AppState {
 class App extends Component<AppProps, AppState> {
   toolbar: RicosToolbar = null;
   toolbarItemUpdators = [];
-  content: any;
+  content: Content;
 
   constructor(props) {
     super(props);
@@ -29,6 +29,7 @@ class App extends Component<AppProps, AppState> {
       toolbarItemCreators: configs.map((config) => ToolbarItem.create(config)),
       content: this.content,
     });
+
     this.state = {
       selectedContent: null,
     };
@@ -40,7 +41,8 @@ class App extends Component<AppProps, AppState> {
 
   setSelection = (nodes) => {
     this.content.updateContent(nodes);
-    this.setState({ selectedContent: nodes });
+    console.log('setSelection');
+    // this.setState({ selectedContent: nodes });
   };
 
   componentWillMount() {}
