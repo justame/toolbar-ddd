@@ -1,10 +1,11 @@
 import { IToolbarItem, ToolbarSpec } from './types';
 
+//ricosToolbar
 export class Toolbar {
   readonly toolbarItems: IToolbarItem[] = [];
   private constructor() {}
 
-  static create() {
+  static create(configs) {
     return new Toolbar();
   }
 

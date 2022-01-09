@@ -5,7 +5,7 @@ import { Toolbar } from './Toolbar';
 import { isContainsTextResolver, textColorResolver } from './resolvers';
 import { Content } from './Content';
 
-interface ToolbarItemConfig {
+export interface ToolbarItemConfig {
   id: string;
   type: string;
   label: string;
@@ -20,6 +20,11 @@ export const configs: ToolbarItemConfig[] = [
     attributes: {
       visible: isContainsTextResolver,
     },
+    // commands: {
+    //   click: ({ attributes, editorCommands, getPosition }) => {
+    //     return editorCommands.toggleInline('bold');
+    //   },
+    // },
   },
   {
     id: 'textColor',
@@ -29,20 +34,12 @@ export const configs: ToolbarItemConfig[] = [
       visible: isContainsTextResolver,
       color: textColorResolver,
     },
+    // commands: {
+    //   click: ({ toolbarItem, editorCommands }) => {
+    //     return editorCommands.toggleInline('bold');
+    //   },
   },
 ];
-
-export const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
-  const toolbarItem = ToolbarItem.create(config.id, config.label);
-  // set default values
-  Object.keys(config.attributes).forEach((attributeName) => {
-    const defaultValue = config.attributes[attributeName].defaultValue;
-    toolbarItem.setAttribute(attributeName, defaultValue);
-  });
-
-  const updateAttributes = createUpdateAttributes(toolbarItem.id, config);
-  return { toolbarItem, updateAttributes };
-};
 
 const createUpdateAttributes = (toolbarItemId, config) => {
   return (toolbar: Toolbar, content) => {

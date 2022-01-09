@@ -4,7 +4,7 @@ import './style.css';
 import ToolbarComponent from './components/Toolbar';
 import { Tiptap } from './TiptapEditor';
 
-import { createToolbarItemByConfig, configs } from './buttonsConfigs';
+import { configs } from './buttonsConfigs';
 import { Content } from './Content';
 import { Toolbar } from './Toolbar';
 
@@ -44,19 +44,23 @@ class App extends Component<AppProps, AppState> {
   componentWillMount() {
     this.toolbar = Toolbar.create();
 
-    configs.forEach((config) => {
-      const { toolbarItem, updateAttributes } =
-        createToolbarItemByConfig(config);
+    // configs.forEach((config) => {
+    //   const { toolbarItem, updateAttributes } =
+    //     createToolbarItemByConfig(config);
 
-      this.toolbarItemUpdators.push(updateAttributes);
-      this.toolbar.addToolbarItem(toolbarItem);
-    });
+    // this.toolbarItemUpdators.push(updateAttributes);
+    // this.toolbar.addToolbarItem(toolbarItem);
+    // });
   }
 
   render() {
     return (
       <div>
-        <ToolbarComponent toolbar={this.toolbar} />
+        <ToolbarComponent
+          toolbar={this.toolbar}
+          configs={configs}
+          content={this.state.selectedContent}
+        />
         <div style={{ height: 100, overflow: 'auto' }}>
           {this.renderNodeContent()}
         </div>
