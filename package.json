@@ -9,8 +9,7 @@
     "@types/react": "16.8.2",
     "@types/react-dom": "16.8.0",
     "react": "16.8.0",
-    "react-dom": "16.8.0",
-    "wix-tiptap-extensions": "^8.66.13"
+    "react-dom": "16.8.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
