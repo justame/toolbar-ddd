@@ -50,7 +50,7 @@ export class RicosToolbar extends EventEmitter {
 
     this.toolbarItems = this.createToolbarItems();
 
-    content.on('change', () => {
+    content.on(Content.EVENTS.contentChangeEvent, () => {
       this.toolbarItems = this.createToolbarItems();
     });
   }

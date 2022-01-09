@@ -39,8 +39,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
             >
               <ToolbarButtonComponent
                 key={index}
-                {...toolbarButton.attributes}
-                label={toolbarButton.presentation.label}
+                toolbarButton={toolbarButton}
               />
             </div>
           );

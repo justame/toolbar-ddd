@@ -4,13 +4,13 @@ p {
 }
 
 .toolbarButton {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   padding: 10px;
 }
 
 .toolbar {
   min-height: 100px;
-  border: solid 1px red;
+  /* border: solid 1px red; */
   display: flex;
 }
 

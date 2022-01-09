@@ -2,6 +2,10 @@ import { ContentResolver } from './ContentResolver';
 import EventEmitter from './EventEmitter';
 
 export class Content extends EventEmitter {
+  static EVENTS = {
+    contentChangeEvent: 'contentChange',
+  };
+
   private constructor(private content) {
     super();
   }
@@ -18,6 +22,7 @@ export class Content extends EventEmitter {
   updateContent(content) {
     this.content = content;
     this.resolved = {};
+    this.emit(Content.EVENTS.contentChangeEvent);
   }
 
   isEmpty() {

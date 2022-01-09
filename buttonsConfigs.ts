@@ -1,6 +1,5 @@
-import { ToolbarItem } from './ToolbarItem';
 import { ContentResolver } from './ContentResolver';
-import { Toolbar } from './Toolbar';
+import { RicosToolbar } from './Toolbar';
 
 import { isContainsTextResolver, textColorResolver } from './resolvers';
 import { Content } from './Content';
@@ -40,7 +39,7 @@ export const configs: IToolbarItemConfig[] = [
 ];
 
 const createUpdateAttributes = (toolbarItemId, config) => {
-  return (toolbar: Toolbar, content) => {
+  return (toolbar: RicosToolbar, content) => {
     const toolbarItem = toolbar.getItemById(toolbarItemId);
     if (toolbarItem) {
       Object.keys(config.attributes).forEach((attributeName) => {
