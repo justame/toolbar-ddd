@@ -14,27 +14,6 @@ const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
   // toolbarItem.getAttribute('visible');
   true;
 
-const updateAttributes = (config, toolbarItem, content, ref) => {
-  if (toolbarItem) {
-    console.log('itemDOM', ref);
-    Object.keys(config.attributes).forEach((attributeName) => {
-      const value = content.resolve(config.attributes[attributeName]);
-      toolbarItem.setAttribute(attributeName, value);
-    });
-  }
-};
-
-const createToolbarItemByConfig = (config: ToolbarItemConfig) => {
-  const toolbarItem = ToolbarItem.create(config.id, config.label);
-  // set default values
-  Object.keys(config.attributes).forEach((attributeName) => {
-    const defaultValue = config.attributes[attributeName].defaultValue;
-    toolbarItem.setAttribute(attributeName, defaultValue);
-  });
-
-  return toolbarItem;
-};
-
 //RicosToolbar
 
 class ToolbarComponent extends Component<ToolbarProps, {}> {
@@ -43,6 +22,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
   state = {};
   constructor(props) {
     super(props);
+    this.toolbar = props.toolbar;
   }
 
   render() {
@@ -53,6 +33,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
         {toolbarButtons.map((toolbarButton, index) => {
           return (
             <div
+              key={toolbarButton.id}
               ref={(item) => {
                 this.items[toolbarButton.id] = item;
               }}

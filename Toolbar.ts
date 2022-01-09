@@ -6,16 +6,18 @@ import { Content } from './Content';
 //ricosToolbar
 export class Toolbar extends EventEmitter {
   readonly toolbarItems: IToolbarItem[] = [];
-  content: Content;
   itemConfigMap = {};
+
   static create(configs: IToolbarItemConfig[], content: Content) {
     return new Toolbar(configs, content);
   }
 
-  private constructor(configs, content) {
+  private constructor(private configs, private content) {
     super();
     configs.forEach((config) => {
-      this.addToolbarItem(this.createToolbarItemByConfig(config));
+      const toolbarItem = this.createToolbarItemByConfig(config);
+      this.addToolbarItem(toolbarItem);
+      this.updateToolbarItemAttributes(toolbarItem.id);
     });
 
     content.on('change', (contentChangeEvent) => {
@@ -33,7 +35,7 @@ export class Toolbar extends EventEmitter {
       attributes: {},
     };
     this.itemConfigMap[toolbarItem.id] = config;
-    this.updateToolbarItemAttributes(toolbarItem.id);
+
     return toolbarItem;
   };
 
