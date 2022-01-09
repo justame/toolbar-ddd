@@ -19,7 +19,7 @@ export const configs: IToolbarItemConfig[] = [
       click:
         ({ attributes, editorCommands }) =>
         (e) => {
-          return console.log(e);
+          editorCommands.chain().focus().toggleBold().run();
         },
     },
   },

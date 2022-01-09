@@ -44,14 +44,18 @@ class App extends Component<AppProps, AppState> {
 
   componentDidMount() {
     console.log(this.editor);
-    this.toolbar = RicosToolbar.create({
-      toolbarItemCreators: configs.map((config) => ToolbarItem.create(config)),
-      content: this.content,
-      editor: this.editor,
-    });
+    setTimeout(() => {
+      this.toolbar = RicosToolbar.create({
+        toolbarItemCreators: configs.map((config) =>
+          ToolbarItem.create(config)
+        ),
+        content: this.content,
+        editor: this.editor,
+      });
 
-    console.log('this.toolbar ', this.toolbar);
-    this.forceUpdate();
+      console.log('this.toolbar ', this.editor);
+      this.forceUpdate();
+    }, 50);
   }
 
   render() {

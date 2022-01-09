@@ -4,11 +4,14 @@ import EventEmitter from './EventEmitter';
 import { Content } from './Content';
 
 //ricosToolbar
-type ToolbarItemCreator = (content: Content) => IToolbarItem;
+type ToolbarItemCreator = (
+  content: Content,
+  editorCommands: any
+) => IToolbarItem;
 
 export class ToolbarItem {
   static create(toolbarItemConfig: IToolbarItemConfig): ToolbarItemCreator {
-    return (content) => {
+    return (content, editorCommands) => {
       const toolbarItem = {
         id: toolbarItemConfig.id,
         presentation: toolbarItemConfig.presentation,
@@ -22,7 +25,7 @@ export class ToolbarItem {
           commandName
         ]({
           attributes: toolbarItem.attributes,
-          editorCommands: {},
+          editorCommands,
         });
       });
 
@@ -67,8 +70,6 @@ export class RicosToolbar extends EventEmitter {
     this.content = content;
     this.editor = editor;
 
-    console.log(this.editor);
-
     this.toolbarItems = this.createToolbarItems();
 
     content.on(Content.EVENTS.contentChangeEvent, () => {
@@ -84,7 +85,7 @@ export class RicosToolbar extends EventEmitter {
 
   private createToolbarItems() {
     return this.toolbarItemCreators.map((toolbarItemCreator) => {
-      return toolbarItemCreator(this.content);
+      return toolbarItemCreator(this.content, this.editor);
     });
   }
 
