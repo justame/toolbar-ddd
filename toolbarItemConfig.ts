@@ -15,11 +15,13 @@ export const configs: IToolbarItemConfig[] = [
     attributes: {
       visible: isContainsTextResolver,
     },
-    // commands: {
-    //   click: ({ attributes, editorCommands, getPosition }) => {
-    //     return editorCommands.toggleInline('bold');
-    //   },
-    // },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
   },
   {
     id: 'textColor',
@@ -31,10 +33,13 @@ export const configs: IToolbarItemConfig[] = [
       visible: isContainsTextResolver,
       color: textColorResolver,
     },
-    // commands: {
-    //   click: ({ toolbarItem, editorCommands }) => {
-    //     return editorCommands.toggleInline('bold');
-    //   },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
   },
 ];
 

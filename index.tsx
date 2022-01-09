@@ -16,6 +16,7 @@ interface AppState {
 // color indicator
 // tooltip
 // icon
+// open modal
 class App extends Component<AppProps, AppState> {
   toolbar: RicosToolbar = null;
   toolbarItemUpdators = [];
