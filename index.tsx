@@ -26,10 +26,6 @@ class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
     this.content = Content.create(null);
-    this.toolbar = RicosToolbar.create({
-      toolbarItemCreators: configs.map((config) => ToolbarItem.create(config)),
-      content: this.content,
-    });
 
     this.state = {
       selectedContent: null,
@@ -47,16 +43,15 @@ class App extends Component<AppProps, AppState> {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      console.log(this.editor);
-      this.toolbar = RicosToolbar.create({
-        toolbarItemCreators: configs.map((config) =>
-          ToolbarItem.create(config)
-        ),
-        content: this.content,
-        editor: this.editor,
-      });
-    }, 1000);
+    console.log(this.editor);
+    this.toolbar = RicosToolbar.create({
+      toolbarItemCreators: configs.map((config) => ToolbarItem.create(config)),
+      content: this.content,
+      editor: this.editor,
+    });
+
+    console.log('this.toolbar ', this.toolbar);
+    this.forceUpdate();
   }
 
   render() {
