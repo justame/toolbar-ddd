@@ -9,7 +9,6 @@ const ToolbarButton = (props) => {
         {toolbarButton.presentation?.label} is{' '}
         {toolbarButton.attributes?.visible?.toString()}
         {toolbarButton.presentation?.color}
-        {Math.random().toFixed(4).toString()}
       </button>
     </div>
   );
