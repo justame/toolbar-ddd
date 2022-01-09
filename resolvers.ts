@@ -8,7 +8,6 @@ export const isContainsTextResolver = ContentResolver.create({
     );
   },
   description: 'is contains text',
-  defaultValue: false,
 });
 
 export const textColorResolver = ContentResolver.create({
@@ -16,5 +15,4 @@ export const textColorResolver = ContentResolver.create({
     return 'blue';
   },
   description: 'text color',
-  defaultValue: 'blue',
 });

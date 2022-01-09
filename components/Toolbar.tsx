@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import ToolbarButtonComponent from './ToolbarButton';
 import { IToolbarItem, ToolbarSpec } from '../types';
-import { Toolbar } from '../Toolbar';
-import { ToolbarItemConfig } from '../buttonsConfigs';
+import { RicosToolbar } from '../Toolbar';
 import { ToolbarItem } from '../ToolbarItem';
 import { Content } from '../Content';
 
 type ToolbarProps = {
-  toolbar: Toolbar;
+  toolbar: RicosToolbar;
 };
 
 const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
@@ -17,7 +16,7 @@ const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
 //RicosToolbar
 
 class ToolbarComponent extends Component<ToolbarProps, {}> {
-  toolbar: Toolbar = null;
+  toolbar: RicosToolbar = null;
   items: Record<string, any> = {};
   state = {};
   constructor(props) {

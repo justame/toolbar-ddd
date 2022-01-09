@@ -4,40 +4,50 @@ import EventEmitter from './EventEmitter';
 import { Content } from './Content';
 
 //ricosToolbar
+type ToolbarCreator = (content: Content) => IToolbarItem;
 
-class ToolbarItem {
-  static from(
-    toolbarItemConfig: IToolbarItemConfig,
-    content: Content
-  ): IToolbarItem {
-    const toolbarItem = {
-      id: toolbarItemConfig.id,
-      presentation: toolbarItemConfig.presentation,
-      type: toolbarItemConfig.type,
-      attributes: {},
+const  toolbarItemCreator;
+class ToolbarItemCreator {
+  static create(toolbarItemConfig: IToolbarItemConfig): ToolbarCreator {
+    return (content) => {
+      const toolbarItemCreator = {
+        id: toolbarItemConfig.id,
+        presentation: toolbarItemConfig.presentation,
+        type: toolbarItemConfig.type,
+        attributes: {},
+      };
+
+      if (!content.isEmpty()) {
+        Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
+          toolbarItemCreator.attributes[attributeName] = content.resolve(
+            toolbarItemConfig.attributes[attributeName]
+          );
+        });
+      }
+      return toolbarItemCreator;
     };
-    if (!content.isEmpty()) {
-      Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
-        toolbarItem.attributes[attributeName] = content.resolve(
-          toolbarItemConfig.attributes[attributeName]
-        );
-      });
-    }
-
-    return toolbarItem;
   }
 }
-export class Toolbar extends EventEmitter {
-  readonly toolbarItems: IToolbarItem[] = [];
 
-  static create(configs: IToolbarItemConfig[], content: Content) {
-    return new Toolbar(configs, content);
+type RicosToolbarProps = {
+  toolbarItemCreators: IToolbarItemConfig[];
+  content: Content;
+};
+
+export class RicosToolbar extends EventEmitter {
+  readonly toolbarItems: IToolbarItem[] = [];
+  private toolbarItemCreators: IToolbarItemConfig[];
+
+  static create({ toolbarItemCreators, content }: RicosToolbarProps) {
+    return new RicosToolbar({ toolbarItemCreators, content });
   }
 
-  private constructor(private configs, private content) {
+  private constructor({ toolbarItemCreators, content }: RicosToolbarProps) {
     super();
-    configs.forEach((config) => {
-      const toolbarItem = ToolbarItem.from(config, this.content);
+    this.toolbarItemCreators = toolbarItemCreators;
+
+    toolbarItemCreators.forEach((config) => {
+      const toolbarItem = ToolbarItem.create(config)(content);
       this.addToolbarItem(toolbarItem);
     });
 
