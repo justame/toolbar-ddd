@@ -42,12 +42,10 @@ class App extends Component<AppProps, AppState> {
   };
 
   componentWillMount() {
-    this.toolbar = Toolbar.create();
-
+    // this.toolbar = Toolbar.create();
     // configs.forEach((config) => {
     //   const { toolbarItem, updateAttributes } =
     //     createToolbarItemByConfig(config);
-
     // this.toolbarItemUpdators.push(updateAttributes);
     // this.toolbar.addToolbarItem(toolbarItem);
     // });
