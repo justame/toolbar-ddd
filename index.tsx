@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import './style.css';
 import ToolbarComponent from './components/Toolbar';
 import { Tiptap } from './TiptapEditor';
-
-import { configs } from './buttonsConfigs';
+import { fromTiptap, toTiptap } from 'wix-tiptap-extensions';
+import { configs } from './toolbarItemConfig';
 import { Content } from './Content';
 import { RicosToolbar, ToolbarItem } from './Toolbar';
 
@@ -41,8 +41,9 @@ class App extends Component<AppProps, AppState> {
 
   setSelection = (nodes) => {
     this.content.updateContent(nodes);
-    console.log('setSelection');
-    // this.setState({ selectedContent: nodes });
+    const ricosNodes = fromTiptap(nodes);
+    console.log(ricosNodes);
+    this.setState({ selectedContent: nodes });
   };
 
   componentWillMount() {}

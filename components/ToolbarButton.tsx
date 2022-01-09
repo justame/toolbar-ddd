@@ -13,4 +13,9 @@ const ToolbarButton = (props) => {
     </div>
   );
 };
+
+
+const ColorIndicator = () => {
+  
+}
 export default ToolbarButton;
