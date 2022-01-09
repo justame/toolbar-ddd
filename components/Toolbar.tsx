@@ -7,8 +7,7 @@ import { ToolbarItem } from '../ToolbarItem';
 import { Content } from '../Content';
 
 type ToolbarProps = {
-  configs: any;
-  content: any;
+  toolbar: Toolbar;
 };
 
 const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
@@ -44,45 +43,6 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
   state = {};
   constructor(props) {
     super(props);
-    const { configs } = this.props;
-
-    this.toolbar = Toolbar.create(configs);
-    configs.forEach((config) => {
-      const toolbarItem = createToolbarItemByConfig(config);
-      this.toolbar.addToolbarItem(toolbarItem);
-    });
-  }
-
-  componentWillReceiveProps(props) {
-    const content = Content.create(props.content);
-    const toolbar: Toolbar = props.toolbar;
-    console.log(this.items);
-    toolbar.toolbarItems.forEach((toolbarItem) => {
-      const config = props.configs.find((config) => config.id);
-      updateAttributes(
-        config,
-        toolbarItem,
-        content,
-        this.items[toolbarItem.id]
-      );
-    });
-
-    return null;
-  }
-
-  componentDidMount() {
-    const content = Content.create(this.props.content);
-    const toolbar: Toolbar = this.props.toolbar;
-    console.log(this.items);
-    toolbar.toolbarItems.forEach((toolbarItem) => {
-      const config = this.props.configs.find((config) => config.id);
-      updateAttributes(
-        config,
-        toolbarItem,
-        content,
-        this.items[toolbarItem.id]
-      );
-    });
   }
 
   render() {
@@ -100,7 +60,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
               <ToolbarButtonComponent
                 key={index}
                 {...toolbarButton.attributes}
-                label={toolbarButton.label}
+                label={toolbarButton.presentation.label}
               />
             </div>
           );

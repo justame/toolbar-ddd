@@ -4,26 +4,29 @@ import { Toolbar } from './Toolbar';
 
 import { isContainsTextResolver, textColorResolver } from './resolvers';
 import { Content } from './Content';
-import {IToolbarItemConfig} from './types';
-
+import { IToolbarItemConfig } from './types';
 
 export const configs: IToolbarItemConfig[] = [
   {
     id: 'bold',
     type: 'toggle',
-    label: 'Bold',
+    presentation: {
+      label: 'Bold',
+    },
     attributes: {
       visible: isContainsTextResolver,
     },
-    commands: {
-      click: ({ attributes, editorCommands, getPosition }) => {
-        return editorCommands.toggleInline('bold');
-      },
-    },
+    // commands: {
+    //   click: ({ attributes, editorCommands, getPosition }) => {
+    //     return editorCommands.toggleInline('bold');
+    //   },
+    // },
   },
   {
     id: 'textColor',
-    label: 'Color',
+    presentation: {
+      label: 'Color',
+    },
     type: 'colorPicker',
     attributes: {
       visible: isContainsTextResolver,

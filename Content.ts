@@ -1,7 +1,10 @@
 import { ContentResolver } from './ContentResolver';
+import EventEmitter from './EventEmitter';
 
-export class Content {
-  private constructor(private content) {}
+export class Content extends EventEmitter {
+  private constructor(private content) {
+    super();
+  }
   private resolved = {};
   resolve(contentResolver: ContentResolver) {
     if (this.resolved[contentResolver.id]) {
@@ -11,6 +14,16 @@ export class Content {
     }
     return this.resolved[contentResolver.id];
   }
+
+  updateContent(content) {
+    this.content = content;
+    this.resolved = {};
+  }
+
+  isEmpty() {
+    return !!this.content;
+  }
+
   static create(content) {
     return new Content(content);
   }

@@ -1,19 +1,18 @@
 import { IContentResolver } from './ContentResolver';
 
-export interface IToolbarItem {
+export type IToolbarItem = {
   id: string;
+  type: string;
   presentation?: Record<string, any>;
-  label: string;
-  attributes: Record<string, any>;
-  setAttribute: (key, value) => void;
-  getAttribute: (key) => any;
-}
+  attributes: Record<string, string | boolean | number>;
+};
+type Modify<T, R> = Omit<T, keyof R> & R;
 
 export type ToolbarSpec = (toolbarItem: IToolbarItem) => boolean;
 
-export interface IToolbarItemConfig {
-  id: string;
-  type: string;
-  label: string;
-  attributes: Record<string, IContentResolver<string | boolean | number>>;
-}
+export type IToolbarItemConfig = Modify<
+  IToolbarItem,
+  {
+    attributes: Record<string, IContentResolver<any>>;
+  }
+>;

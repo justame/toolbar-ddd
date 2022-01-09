@@ -20,10 +20,12 @@ interface AppState {
 class App extends Component<AppProps, AppState> {
   toolbar: Toolbar = null;
   toolbarItemUpdators = [];
+  content: any;
 
   constructor(props) {
     super(props);
-    this.toolbar = Toolbar.create(configs);
+    this.content = Content.create(null);
+    this.toolbar = Toolbar.create(configs, Content.create(null));
     this.state = {
       selectedContent: null,
     };
@@ -34,11 +36,10 @@ class App extends Component<AppProps, AppState> {
   }
 
   setSelection = (nodes) => {
-    const content = Content.create(nodes);
-    this.toolbarItemUpdators.forEach((updateAttribute) => {
-      updateAttribute(this.toolbar, content);
-    });
-
+    // this.toolbarItemUpdators.forEach((updateAttribute) => {
+    //   updateAttribute(this.toolbar, content);
+    // });
+    this.content.updateContent(nodes);
     this.setState({ selectedContent: nodes });
   };
 
@@ -47,10 +48,7 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <ToolbarComponent
-          configs={configs}
-          content={this.state.selectedContent}
-        />
+        <ToolbarComponent toolbar={this.toolbar} />
         <div style={{ height: 100, overflow: 'auto' }}>
           {this.renderNodeContent()}
         </div>
