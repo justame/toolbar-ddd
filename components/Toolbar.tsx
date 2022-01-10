@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ToolbarButtonComponent from './ToolbarButton';
 import { IToolbarItem, ToolbarSpec } from '../types';
 import { RicosToolbar } from '../Toolbar';
-import { ToolbarItem } from '../ToolbarItem';
-import { Content } from '../Content';
 
 type ToolbarProps = {
   toolbar: RicosToolbar;
