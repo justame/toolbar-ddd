@@ -53,6 +53,22 @@ const Settings = ({ toolbarItem }: ComponentProps) => {
   );
 };
 
+const TextType = ({ toolbarItem }: ComponentProps) => {
+  return (
+    <div>
+      <select
+        value={toolbarItem.attributes.textType.toString()}
+        onChange={(e) => {
+          toolbarItem.commands.changeFont(e.target.selectedOptions[0].value);
+        }}
+      >
+        <option value="paragraph">paragraph</option>
+        <option value="image">image</option>
+      </select>
+    </div>
+  );
+};
+
 export const toolbarItemsRenders = {
   toggle: (toolbarItem) => {
     return <ToggleButton toolbarItem={toolbarItem} />;
@@ -65,5 +81,8 @@ export const toolbarItemsRenders = {
   },
   imageSettings: (toolbarItem) => {
     return <Settings toolbarItem={toolbarItem} />;
+  },
+  textType: (toolbarItem) => {
+    return <TextType toolbarItem={toolbarItem} />;
   },
 };

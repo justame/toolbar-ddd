@@ -2,7 +2,7 @@ import { IContentResolver } from './ContentResolver';
 
 export type IToolbarItem = {
   id: string;
-  type: 'textColorIndicator' | 'toggle' | 'font' | 'imageSettings';
+  type: 'textColorIndicator' | 'toggle' | 'font' | 'imageSettings' | 'textType';
   presentation?: Record<string, any>;
   attributes: Record<string, string | boolean | number>;
   commands: Record<string, (...args: any) => void>;

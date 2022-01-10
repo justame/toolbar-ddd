@@ -77,6 +77,27 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
         },
     },
   },
+  {
+    id: 'textType',
+    presentation: {},
+    type: 'textType',
+    attributes: {
+      visible: alwaysVisible,
+      textType: ContentResolver.create({
+        resolve: (content) => {
+          return Array.isArray(content) && content && content[0].type.name;
+        },
+        description: 'resolve text type',
+      }),
+    },
+    commands: {
+      changeFont:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
+  },
 ];
 
 export const floatingToolbarConfig: IToolbarItemConfig[] = [
