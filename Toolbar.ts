@@ -23,7 +23,7 @@ export class RicosToolbar extends EventEmitter {
   private toolbarItemCreators: ToolbarItemCreator[];
   private content: Content;
   private editor = null;
-  // resolvers
+
   static create({ toolbarItemCreators, content, editor }: RicosToolbarProps) {
     return new RicosToolbar({ toolbarItemCreators, content, editor });
   }

@@ -5,6 +5,7 @@ import {
   isContainsTextResolver,
   textColorResolver,
   alwaysVisible,
+  onlyImageSelected,
 } from './resolvers';
 import { IToolbarItemConfig } from './types';
 
@@ -46,12 +47,27 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
   },
   {
     id: 'fontSize',
-    presentation: {
-      label: 'Color',
-    },
+    presentation: {},
     type: 'font',
     attributes: {
       visible: alwaysVisible,
+    },
+    commands: {
+      changeFont:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
+  },
+  {
+    id: 'imageSettings',
+    presentation: {
+      label: 'Color',
+    },
+    type: 'imageSettings',
+    attributes: {
+      visible: onlyImageSelected,
     },
     commands: {
       changeFont:

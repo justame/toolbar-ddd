@@ -89,9 +89,9 @@ class App extends Component<AppProps, AppState> {
             />
           )}
         </div>
-        {/* <div style={{ height: 100, overflow: 'auto' }}>
+        <div style={{ height: 100, overflow: 'auto' }}>
           {this.renderNodeContent()}
-        </div> */}
+        </div>
         <Tiptap
           onLoad={(editor) => this.onEditorLoad(editor)}
           onSelectionChange={(nodes) => {

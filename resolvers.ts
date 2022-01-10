@@ -23,3 +23,14 @@ export const textColorResolver = ContentResolver.create({
   },
   description: 'text color',
 });
+
+export const onlyImageSelected = ContentResolver.create({
+  resolve: (content) => {
+    return (
+      Array.isArray(content) &&
+      content.length === 1 &&
+      content[0].type.name === 'image'
+    );
+  },
+  description: 'text color',
+});

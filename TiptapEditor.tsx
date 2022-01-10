@@ -2,6 +2,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
 import { Editor, EditorContent, JSONContent } from '@tiptap/react';
+import Image from '@tiptap/extension-image';
 
 const getSelectedNodes = (editor) => {
   const selection = editor.state.selection;
@@ -24,8 +25,11 @@ export const Tiptap = ({ onSelectionChange, onLoad }) => {
 
   useEffect(() => {
     const editorInstance = new Editor({
-      extensions: [StarterKit],
-      content: '<p>Hello World!</p>',
+      extensions: [StarterKit, Image],
+      content: `<p>Hello World! </p>
+          <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
+          <p>fjsdkjfdklsjfldksjl</p>
+        `,
       injectCSS: true,
       onSelectionUpdate: ({ editor }) => {
         if (editor) {

@@ -45,6 +45,14 @@ const FontDropDown = ({ toolbarItem }: ComponentProps) => {
   );
 };
 
+const Settings = ({ toolbarItem }: ComponentProps) => {
+  return (
+    <div>
+      <button> image settings</button>
+    </div>
+  );
+};
+
 export const toolbarItemsRenders = {
   toggle: (toolbarItem) => {
     return <ToggleButton toolbarItem={toolbarItem} />;
@@ -54,5 +62,8 @@ export const toolbarItemsRenders = {
   },
   font: (toolbarItem) => {
     return <FontDropDown toolbarItem={toolbarItem} />;
+  },
+  imageSettings: (toolbarItem) => {
+    return <Settings toolbarItem={toolbarItem} />;
   },
 };
