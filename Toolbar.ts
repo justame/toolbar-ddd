@@ -17,7 +17,7 @@ type RicosToolbarProps = {
 
 export class RicosToolbar extends EventEmitter {
   static EVENTS = {
-    toolbarsCreated: 'toolbarsCreated',
+    toolbarItemsCreated: 'toolbarsCreated',
   };
   private toolbarItems: IToolbarItem[] = [];
   private toolbarItemCreators: ToolbarItemCreator[];
@@ -43,9 +43,10 @@ export class RicosToolbar extends EventEmitter {
 
     content.on(Content.EVENTS.contentChangeEvent, () => {
       const previousToolbarItems = Object.freeze(this.toolbarItems);
+
       this.toolbarItems = this.createToolbarItems();
 
-      this.emit(RicosToolbar.EVENTS.toolbarsCreated, {
+      this.emit(RicosToolbar.EVENTS.toolbarItemsCreated, {
         previousToolbarItems,
         toolbarItems: Object.freeze(this.toolbarItems),
       });

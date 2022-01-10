@@ -46,7 +46,7 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
     },
   },
   {
-    id: 'fontSize',
+    id: 'fontFamily',
     presentation: {},
     type: 'font',
     attributes: {

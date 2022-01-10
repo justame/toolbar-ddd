@@ -14,21 +14,21 @@ const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
 //RicosToolbar
 
 class ToolbarComponent extends Component<ToolbarProps, {}> {
-  toolbar: RicosToolbar = null;
   items: Record<string, any> = {};
   state = {
     dummyUpdate: 1,
   };
   constructor(props) {
     super(props);
-    this.toolbar = props.toolbar;
-    this.toolbar.on(RicosToolbar.EVENTS.toolbarsCreated, () => {
+
+    props.toolbar.on(RicosToolbar.EVENTS.toolbarsCreated, () => {
+      // force update
       this.setState({ dummyUpdate: this.state.dummyUpdate + 1 });
     });
   }
 
   render() {
-    const toolbarButtons = this.toolbar.getItemsBy(visibleOnlySpec);
+    const toolbarButtons = this.props.toolbar.getItemsBy(visibleOnlySpec);
     const { toolbarItemsRenders } = this.props;
     return (
       <div className="toolbar">
