@@ -21,7 +21,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
   constructor(props) {
     super(props);
 
-    props.toolbar.on(RicosToolbar.EVENTS.toolbarsCreated, () => {
+    props.toolbar.on(RicosToolbar.EVENTS.toolbarItemsCreated, () => {
       // force update
       this.setState({ dummyUpdate: this.state.dummyUpdate + 1 });
     });

@@ -1,5 +1,6 @@
 import { ContentResolver } from './ContentResolver';
 import { RicosToolbar } from './Toolbar';
+import { BoldIcon, ItalicIcon } from './icons';
 
 import {
   isContainsTextResolver,
@@ -14,7 +15,8 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
     id: 'bold',
     type: 'toggle',
     presentation: {
-      label: 'Bold',
+      tooltip: 'Bold',
+      icon: BoldIcon,
     },
     attributes: {
       visible: alwaysVisible,
@@ -24,6 +26,24 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
         ({ attributes, editorCommands }) =>
         (e) => {
           editorCommands.chain().focus().toggleBold().run();
+        },
+    },
+  },
+  {
+    id: 'italic',
+    type: 'toggle',
+    presentation: {
+      tooltip: 'Italic',
+      icon: ItalicIcon,
+    },
+    attributes: {
+      visible: alwaysVisible,
+    },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          editorCommands.chain().focus().toggleItalic().run();
         },
     },
   },
