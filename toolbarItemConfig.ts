@@ -2,10 +2,9 @@ import { ContentResolver } from './ContentResolver';
 import { RicosToolbar } from './Toolbar';
 
 import { isContainsTextResolver, textColorResolver } from './resolvers';
-import { Content } from './Content';
 import { IToolbarItemConfig } from './types';
 
-export const configs: IToolbarItemConfig[] = [
+export const staticToolbarConfig: IToolbarItemConfig[] = [
   {
     id: 'bold',
     type: 'toggle',
@@ -43,14 +42,40 @@ export const configs: IToolbarItemConfig[] = [
   },
 ];
 
-const createUpdateAttributes = (toolbarItemId, config) => {
-  return (toolbar: RicosToolbar, content) => {
-    const toolbarItem = toolbar.getItemById(toolbarItemId);
-    if (toolbarItem) {
-      Object.keys(config.attributes).forEach((attributeName) => {
-        const value = content.resolve(config.attributes[attributeName]);
-        toolbarItem.setAttribute(attributeName, value);
-      });
-    }
-  };
-};
+export const floatingToolbarConfig: IToolbarItemConfig[] = [
+  {
+    id: 'bold',
+    type: 'toggle',
+    presentation: {
+      label: 'Bold',
+    },
+    attributes: {
+      visible: isContainsTextResolver,
+    },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          editorCommands.chain().focus().toggleBold().run();
+        },
+    },
+  },
+  {
+    id: 'textColor',
+    presentation: {
+      label: 'Color',
+    },
+    type: 'colorPicker',
+    attributes: {
+      visible: isContainsTextResolver,
+      color: textColorResolver,
+    },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
+  },
+];

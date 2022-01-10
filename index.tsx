@@ -3,9 +3,13 @@ import { render } from 'react-dom';
 import './style.css';
 import ToolbarComponent from './components/Toolbar';
 import { Tiptap } from './TiptapEditor';
-import { configs } from './toolbarItemConfig';
+import {
+  staticToolbarConfig,
+  floatingToolbarConfig,
+} from './toolbarItemConfig';
 import { Content } from './Content';
-import { RicosToolbar, ToolbarItem } from './Toolbar';
+import { RicosToolbar } from './Toolbar';
+import { ToolbarItem } from './ToolbarItem';
 
 interface AppProps {}
 interface AppState {
@@ -18,8 +22,8 @@ interface AppState {
 // icon
 // open modal
 class App extends Component<AppProps, AppState> {
-  toolbar: RicosToolbar = null;
-  toolbarItemUpdators = [];
+  staticToolbar: RicosToolbar = null;
+  floatingToolbar: RicosToolbar = null;
   content: Content;
   editor: any;
 
@@ -42,31 +46,47 @@ class App extends Component<AppProps, AppState> {
     this.setState({ selectedContent: nodes });
   };
 
-  componentDidMount() {
-    console.log(this.editor);
-    setTimeout(() => {
-      this.toolbar = RicosToolbar.create({
-        toolbarItemCreators: configs.map((config) =>
-          ToolbarItem.create(config)
-        ),
-        content: this.content,
-        editor: this.editor,
-      });
+  onEditorLoad(editor) {
+    this.staticToolbar = RicosToolbar.create({
+      toolbarItemCreators: staticToolbarConfig.map((config) =>
+        ToolbarItem.create(config)
+      ),
+      content: this.content,
+      editor: editor,
+    });
 
-      console.log('this.toolbar ', this.editor);
-      this.forceUpdate();
-    }, 50);
+    this.floatingToolbar = RicosToolbar.create({
+      toolbarItemCreators: floatingToolbarConfig.map((config) =>
+        ToolbarItem.create(config)
+      ),
+      content: this.content,
+      editor: editor,
+    });
+
+    console.log('this.toolbar ', this.editor);
+    this.forceUpdate();
   }
 
   render() {
     return (
       <div>
-        {this.toolbar && <ToolbarComponent toolbar={this.toolbar} />}
-        <div style={{ height: 100, overflow: 'auto' }}>
-          {this.renderNodeContent()}
+        <div>
+          Static Toolbar
+          {this.staticToolbar && (
+            <ToolbarComponent toolbar={this.staticToolbar} />
+          )}
         </div>
+        <div>
+          Floating Toolbar
+          {this.floatingToolbar && (
+            <ToolbarComponent toolbar={this.floatingToolbar} />
+          )}
+        </div>
+        {/* <div style={{ height: 100, overflow: 'auto' }}>
+          {this.renderNodeContent()}
+        </div> */}
         <Tiptap
-          onLoad={(editor) => (this.editor = editor)}
+          onLoad={(editor) => this.onEditorLoad(editor)}
           onSelectionChange={(nodes) => {
             this.setSelection(nodes);
           }}

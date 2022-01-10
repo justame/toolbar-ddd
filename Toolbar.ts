@@ -3,43 +3,12 @@ import { IToolbarItem, ToolbarSpec, IToolbarItemConfig } from './types';
 import EventEmitter from './EventEmitter';
 import { Content } from './Content';
 
-//ricosToolbar
-type ToolbarItemCreator = (
+export type ToolbarItemCreator = (
   content: Content,
   editorCommands: any
 ) => IToolbarItem;
 
-export class ToolbarItem {
-  static create(toolbarItemConfig: IToolbarItemConfig): ToolbarItemCreator {
-    return (content, editorCommands) => {
-      const toolbarItem = {
-        id: toolbarItemConfig.id,
-        presentation: toolbarItemConfig.presentation,
-        type: toolbarItemConfig.type,
-        attributes: {},
-        commands: {},
-      };
-
-      Object.keys(toolbarItemConfig.commands).forEach((commandName) => {
-        toolbarItem.commands[commandName] = toolbarItemConfig.commands[
-          commandName
-        ]({
-          attributes: toolbarItem.attributes,
-          editorCommands,
-        });
-      });
-
-      Object.keys(toolbarItemConfig.attributes).forEach((attributeName) => {
-        toolbarItem.attributes[attributeName] = content.resolve(
-          toolbarItemConfig.attributes[attributeName]
-        );
-      });
-
-      return toolbarItem;
-    };
-  }
-}
-
+//ricosToolbar
 type RicosToolbarProps = {
   toolbarItemCreators: ToolbarItemCreator[];
   content: Content;
