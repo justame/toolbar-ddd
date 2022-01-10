@@ -10,8 +10,7 @@ type ToolbarProps = {
 };
 
 const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
-  // toolbarItem.getAttribute('visible');
-  true;
+  toolbarItem.attributes['visible'] === true;
 
 //RicosToolbar
 

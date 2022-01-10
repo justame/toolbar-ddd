@@ -10,9 +10,7 @@ const ToolbarButton = (props) => {
           toolbarButton.commands?.click(e);
         }}
       >
-        {toolbarButton.presentation?.label} is{' '}
-        {toolbarButton.attributes?.visible?.toString()}
-        {toolbarButton.presentation?.color}
+        {toolbarButton.presentation?.label}
       </button>
     </div>
   );

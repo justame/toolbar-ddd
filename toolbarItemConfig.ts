@@ -1,7 +1,11 @@
 import { ContentResolver } from './ContentResolver';
 import { RicosToolbar } from './Toolbar';
 
-import { isContainsTextResolver, textColorResolver } from './resolvers';
+import {
+  isContainsTextResolver,
+  textColorResolver,
+  alwaysVisible,
+} from './resolvers';
 import { IToolbarItemConfig } from './types';
 
 export const staticToolbarConfig: IToolbarItemConfig[] = [
@@ -12,7 +16,7 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
       label: 'Bold',
     },
     attributes: {
-      visible: isContainsTextResolver,
+      visible: alwaysVisible,
     },
     commands: {
       click:
@@ -29,7 +33,7 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
     },
     type: 'colorPicker',
     attributes: {
-      visible: isContainsTextResolver,
+      visible: alwaysVisible,
       color: textColorResolver,
     },
     commands: {

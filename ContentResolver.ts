@@ -2,6 +2,7 @@ export interface IContentResolver<T> {
   id: string;
   resolve: (content: T) => any;
   description: string;
+  type: string;
 }
 
 export class ContentResolver implements IContentResolver<any> {

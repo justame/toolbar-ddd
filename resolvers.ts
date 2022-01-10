@@ -1,5 +1,12 @@
 import { ContentResolver } from './ContentResolver';
 
+export const alwaysVisible = ContentResolver.create({
+  resolve: (content) => {
+    return true;
+  },
+  description: 'always visible',
+});
+
 export const isContainsTextResolver = ContentResolver.create({
   resolve: (content) => {
     return (
