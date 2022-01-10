@@ -8,20 +8,34 @@ const ToggleButton = ({ toolbarItem }: ComponentProps) => {
   return (
     <div>
       <button onClick={(e) => toolbarItem.commands?.click(e)}>
-        {toolbarItem.attributes.label}
+        {toolbarItem.presentation.label}
       </button>
     </div>
   );
 };
 
 const TextColorIndicator = ({ toolbarItem }: ComponentProps) => {
-  return <div>{toolbarItem.attributes.color}</div>;
+  return (
+    <div
+      style={{
+        backgroundColor: toolbarItem.attributes.color,
+        width: 30,
+        height: 30,
+      }}
+    >
+      {toolbarItem.attributes.color}
+    </div>
+  );
 };
 
-const Dropdown = ({ toolbarItem }: ComponentProps) => {
+const FontDropDown = ({ toolbarItem }: ComponentProps) => {
   return (
     <div>
-      <select onChange={(value) => console.log({ value })}>
+      <select
+        onChange={(e) => {
+          toolbarItem.commands.changeFont(e.target.selectedOptions[0].value);
+        }}
+      >
         <option value="Roboto">Roboto</option>
         <option value="Arial">Arial</option>
         <option value="Helveticate">Helveticate</option>
@@ -38,7 +52,7 @@ export const toolbarItemsRenders = {
   textColorIndicator: (toolbarItem) => {
     return <TextColorIndicator toolbarItem={toolbarItem} />;
   },
-  fontSize: (toolbarItem) => {
-    return <Dropdown toolbarItem={toolbarItem} />;
+  font: (toolbarItem) => {
+    return <FontDropDown toolbarItem={toolbarItem} />;
   },
 };

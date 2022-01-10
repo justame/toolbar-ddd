@@ -31,13 +31,30 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
     presentation: {
       label: 'Color',
     },
-    type: 'colorPicker',
+    type: 'textColorIndicator',
     attributes: {
       visible: alwaysVisible,
       color: textColorResolver,
     },
     commands: {
       click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          return console.log(e);
+        },
+    },
+  },
+  {
+    id: 'fontSize',
+    presentation: {
+      label: 'Color',
+    },
+    type: 'font',
+    attributes: {
+      visible: alwaysVisible,
+    },
+    commands: {
+      changeFont:
         ({ attributes, editorCommands }) =>
         (e) => {
           return console.log(e);
@@ -69,7 +86,7 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
     presentation: {
       label: 'Color',
     },
-    type: 'colorPicker',
+    type: 'textColorIndicator',
     attributes: {
       visible: isContainsTextResolver,
       color: textColorResolver,
@@ -83,4 +100,3 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
     },
   },
 ];
-

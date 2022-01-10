@@ -10,6 +10,7 @@ import {
 import { Content } from './Content';
 import { RicosToolbar } from './Toolbar';
 import { ToolbarItem } from './ToolbarItem';
+import { toolbarItemsRenders } from './toolbarItemsRenders';
 
 interface AppProps {}
 interface AppState {
@@ -73,13 +74,19 @@ class App extends Component<AppProps, AppState> {
         <div>
           Static Toolbar
           {this.staticToolbar && (
-            <ToolbarComponent toolbar={this.staticToolbar} />
+            <ToolbarComponent
+              toolbar={this.staticToolbar}
+              toolbarItemsRenders={toolbarItemsRenders}
+            />
           )}
         </div>
         <div>
           Floating Toolbar
           {this.floatingToolbar && (
-            <ToolbarComponent toolbar={this.floatingToolbar} />
+            <ToolbarComponent
+              toolbar={this.floatingToolbar}
+              toolbarItemsRenders={toolbarItemsRenders}
+            />
           )}
         </div>
         {/* <div style={{ height: 100, overflow: 'auto' }}>

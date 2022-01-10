@@ -5,6 +5,7 @@ import { RicosToolbar } from '../Toolbar';
 
 type ToolbarProps = {
   toolbar: RicosToolbar;
+  toolbarItemsRenders: any;
 };
 
 const visibleOnlySpec: ToolbarSpec = (toolbarItem) =>
@@ -28,10 +29,13 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
 
   render() {
     const toolbarButtons = this.toolbar.getItemsBy(visibleOnlySpec);
-
+    const { toolbarItemsRenders } = this.props;
     return (
       <div className="toolbar">
         {toolbarButtons.map((toolbarButton, index) => {
+          const ItemComponent =
+            toolbarItemsRenders[toolbarButton.type](toolbarButton);
+
           return (
             <div
               key={toolbarButton.id}
@@ -39,7 +43,7 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
                 this.items[toolbarButton.id] = item;
               }}
             >
-              <ToolbarButtonComponent toolbarButton={toolbarButton} />
+              {ItemComponent}
             </div>
           );
         })}
