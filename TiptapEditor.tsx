@@ -1,6 +1,6 @@
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
-import { Editor, EditorContent, JSONContent } from '@tiptap/react';
+import { Editor, EditorContent } from '@tiptap/react';
 import Image from '@tiptap/extension-image';
 
 const getSelectedNodes = (editor) => {

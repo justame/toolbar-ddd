@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './style.scss';
 import ToolbarComponent from './components/Toolbar';
+import TiptapPosition from '/component/TiptapPosition';
 import { Tiptap } from './TiptapEditor';
 import {
   staticToolbarConfig,
@@ -48,6 +49,7 @@ class App extends Component<AppProps, AppState> {
   };
 
   onEditorLoad(editor) {
+    this.editor = editor;
     this.staticToolbar = RicosToolbar.create({
       toolbarItemCreators: staticToolbarConfig.map((config) =>
         ToolbarItem.create(config)
@@ -83,10 +85,16 @@ class App extends Component<AppProps, AppState> {
         <div>
           Floating Toolbar
           {this.floatingToolbar && (
-            <ToolbarComponent
-              toolbar={this.floatingToolbar}
-              toolbarItemsRenders={toolbarItemsRenders}
-            />
+            <TiptapPosition editor={this.editor}>
+              {() => {
+                return (
+                  <ToolbarComponent
+                    toolbar={this.floatingToolbar}
+                    toolbarItemsRenders={toolbarItemsRenders}
+                  />
+                );
+              }}
+            </TiptapPosition>
           )}
         </div>
         <div style={{ height: 100, overflow: 'auto' }}>
