@@ -5,11 +5,15 @@ type ComponentProps = {
 };
 
 const ToggleButton = ({ toolbarItem }: ComponentProps) => {
+  const Icon = toolbarItem.presentation.icon;
   return (
     <div>
-      <button onClick={(e) => toolbarItem.commands?.click(e)}>
-        {toolbarItem.presentation.label}
-      </button>
+      <div
+        className="toggleButton"
+        onClick={(e) => toolbarItem.commands?.click(e)}
+      >
+        <Icon />
+      </div>
     </div>
   );
 };
