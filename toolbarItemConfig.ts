@@ -126,6 +126,7 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
     type: 'toggle',
     presentation: {
       label: 'Bold',
+      icon: BoldIcon,
     },
     attributes: {
       visible: isContainsTextResolver,

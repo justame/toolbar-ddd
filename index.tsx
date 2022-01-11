@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './style.scss';
 import ToolbarComponent from './components/Toolbar';
-import TiptapPosition from '/component/TiptapPosition';
+import TiptapPosition from './components/TiptapPosition';
 import { Tiptap } from './TiptapEditor';
 import {
   staticToolbarConfig,
@@ -86,12 +86,21 @@ class App extends Component<AppProps, AppState> {
           Floating Toolbar
           {this.floatingToolbar && (
             <TiptapPosition editor={this.editor}>
-              {() => {
+              {({ left, top, isCollapsed }) => {
                 return (
-                  <ToolbarComponent
-                    toolbar={this.floatingToolbar}
-                    toolbarItemsRenders={toolbarItemsRenders}
-                  />
+                  <div
+                    style={{
+                      left,
+                      top,
+                      position: 'absolute',
+                      display: isCollapsed ? 'none' : 'block',
+                    }}
+                  >
+                    <ToolbarComponent
+                      toolbar={this.floatingToolbar}
+                      toolbarItemsRenders={toolbarItemsRenders}
+                    />
+                  </div>
                 );
               }}
             </TiptapPosition>
