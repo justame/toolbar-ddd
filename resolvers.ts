@@ -21,7 +21,20 @@ export const isContainsOnlyText = ContentResolver.create({
 
 export const textColorResolver = ContentResolver.create({
   resolve: (content) => {
-    return 'blue';
+    if (Array.isArray(content)) {
+      const node = content.find((node) => {
+        if (node.marks.length > 0) {
+          const currentMark = node.marks.find((mark) => !!mark.attrs?.color);
+          return currentMark;
+        }
+        return node.type.name === 'text' && node.marks.length > 0;
+      });
+      const currentMark = node?.marks.find((mark) => !!mark.attrs?.color);
+      if (currentMark) {
+        return currentMark.attrs.color;
+      }
+    }
+    return 'transparent';
   },
   description: 'text color',
 });

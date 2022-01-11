@@ -26,9 +26,7 @@ const TextColorIndicator = ({ toolbarItem }: ComponentProps) => {
         width: 30,
         height: 30,
       }}
-    >
-      {toolbarItem.attributes.color}
-    </div>
+    ></div>
   );
 };
 
