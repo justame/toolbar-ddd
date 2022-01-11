@@ -18,10 +18,12 @@ const ToggleButton = ({ toolbarItem }: ComponentProps) => {
   );
 };
 
+
 const TextColorIndicator = ({ toolbarItem }: ComponentProps) => {
   return (
     <div
       style={{
+        border: `solid 1px #CCC`,
         backgroundColor: toolbarItem.attributes.color,
         width: 30,
         height: 30,
