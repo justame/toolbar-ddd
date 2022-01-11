@@ -7,6 +7,7 @@ import {
   textColorResolver,
   alwaysVisible,
   onlyImageSelected,
+  isContainsBold,
 } from './resolvers';
 import { IToolbarItemConfig } from './types';
 
@@ -20,6 +21,7 @@ export const staticToolbarConfig: IToolbarItemConfig[] = [
     },
     attributes: {
       visible: alwaysVisible,
+      active: isContainsBold,
     },
     commands: {
       click:
@@ -130,6 +132,7 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
     },
     attributes: {
       visible: isContainsOnlyText,
+      active: isContainsBold,
     },
     commands: {
       click:

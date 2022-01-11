@@ -34,6 +34,12 @@ export const Tiptap = ({ onSelectionChange, onLoad }) => {
           <p>fjsdkjfdklsjfldksjl</p>
         `,
       injectCSS: true,
+      onUpdate: ({ editor }) => {
+        if (editor) {
+          const nodes = getSelectedNodes(editor);
+          onSelectionChange(nodes);
+        }
+      },
       onSelectionUpdate: ({ editor }) => {
         if (editor) {
           const nodes = getSelectedNodes(editor);

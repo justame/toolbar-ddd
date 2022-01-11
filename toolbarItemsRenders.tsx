@@ -6,10 +6,12 @@ type ComponentProps = {
 
 const ToggleButton = ({ toolbarItem }: ComponentProps) => {
   const Icon = toolbarItem.presentation.icon;
+  const activeClassName = toolbarItem.attributes.active ? 'active' : '';
+  console.log(toolbarItem.attributes);
   return (
     <div>
       <div
-        className="toggleButton"
+        className={`toggleButton ${activeClassName}`}
         onClick={(e) => toolbarItem.commands?.click(e)}
       >
         <Icon />
@@ -17,7 +19,6 @@ const ToggleButton = ({ toolbarItem }: ComponentProps) => {
     </div>
   );
 };
-
 
 const TextColorIndicator = ({ toolbarItem }: ComponentProps) => {
   return (
