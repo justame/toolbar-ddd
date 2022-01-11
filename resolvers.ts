@@ -7,11 +7,13 @@ export const alwaysVisible = ContentResolver.create({
   description: 'always visible',
 });
 
-export const isContainsTextResolver = ContentResolver.create({
+export const isContainsOnlyText = ContentResolver.create({
   resolve: (content) => {
     return (
       Array.isArray(content) &&
-      content.map((c) => c?.textContent).indexOf('bold') !== -1
+      content.every(
+        (node) => node.type.name === 'text' || node.type.name === 'paragraph'
+      )
     );
   },
   description: 'is contains text',

@@ -3,7 +3,7 @@ import { RicosToolbar } from './Toolbar';
 import { BoldIcon, ItalicIcon } from './icons';
 
 import {
-  isContainsTextResolver,
+  isContainsOnlyText,
   textColorResolver,
   alwaysVisible,
   onlyImageSelected,
@@ -129,7 +129,7 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
       icon: BoldIcon,
     },
     attributes: {
-      visible: isContainsTextResolver,
+      visible: isContainsOnlyText,
     },
     commands: {
       click:
@@ -146,7 +146,7 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
     },
     type: 'textColorIndicator',
     attributes: {
-      visible: isContainsTextResolver,
+      visible: isContainsOnlyText,
       color: textColorResolver,
     },
     commands: {
@@ -154,6 +154,31 @@ export const floatingToolbarConfig: IToolbarItemConfig[] = [
         ({ attributes, editorCommands }) =>
         (e) => {
           return console.log(e);
+        },
+    },
+  },
+  {
+    id: 'imageSettings',
+    presentation: {
+      label: 'make cat',
+    },
+    type: 'imageSettings',
+
+    attributes: {
+      visible: onlyImageSelected,
+    },
+    commands: {
+      click:
+        ({ attributes, editorCommands }) =>
+        (e) => {
+          label: 'make cat', console.log({ editorCommands });
+          return editorCommands
+            .chain()
+            .focus()
+            .setImage({
+              src: `https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_1280.jpg`,
+            })
+            .run();
         },
     },
   },

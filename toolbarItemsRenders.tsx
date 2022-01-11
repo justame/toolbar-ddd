@@ -52,7 +52,9 @@ const FontDropDown = ({ toolbarItem }: ComponentProps) => {
 const Settings = ({ toolbarItem }: ComponentProps) => {
   return (
     <div>
-      <button> image settings</button>
+      <button onClick={(e) => toolbarItem.commands.click()}>
+        {toolbarItem.presentation.label}
+      </button>
     </div>
   );
 };

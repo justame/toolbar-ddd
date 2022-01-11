@@ -89,9 +89,12 @@ class App extends Component<AppProps, AppState> {
               {({ left, top, isCollapsed }) => {
                 return (
                   <div
+                    className="floatingToolbar"
                     style={{
                       left,
-                      top,
+                      top: top - 40,
+                      zIndex: 11,
+                      background: '#FFF',
                       position: 'absolute',
                       display: isCollapsed ? 'none' : 'block',
                     }}

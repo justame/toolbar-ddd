@@ -36,7 +36,11 @@ class ToolbarComponent extends Component<ToolbarProps, {}> {
           const ItemComponent =
             toolbarItemsRenders[toolbarButton.type](toolbarButton);
 
-          return <div className="toolbarItem">{ItemComponent}</div>;
+          return (
+            <div key={toolbarButton.id} className="toolbarItem">
+              {ItemComponent}
+            </div>
+          );
         })}
       </div>
     );
